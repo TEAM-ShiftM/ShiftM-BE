@@ -18,9 +18,17 @@ repositories {
 }
 
 dependencies {
+	/* Spring Boot */
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	/* Developer Tools */
+	implementation 'org.projectlombok:lombok'
+
+	/* SQL */
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
