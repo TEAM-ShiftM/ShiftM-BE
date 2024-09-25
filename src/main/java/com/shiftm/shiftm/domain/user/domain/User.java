@@ -3,6 +3,7 @@ package com.shiftm.shiftm.domain.user.domain;
 import java.time.LocalDate;
 
 import com.shiftm.shiftm.domain.user.domain.enums.Gender;
+import com.shiftm.shiftm.domain.user.domain.enums.Role;
 import com.shiftm.shiftm.domain.user.domain.enums.Status;
 
 import jakarta.persistence.Column;
@@ -11,6 +12,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +26,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Column(nullable = false)
@@ -43,4 +45,21 @@ public class User {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Status status;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Role role;
+
+	@Builder
+	public User(String id, String password, String email,
+		String name, LocalDate birthDate, Gender gender, Status status, Role role) {
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.name = name;
+		this.birthDate = birthDate;
+		this.gender = gender;
+		this.status = status;
+		this.role = role;
+	}
 }
