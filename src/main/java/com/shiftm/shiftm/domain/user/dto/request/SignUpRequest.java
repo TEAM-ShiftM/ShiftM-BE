@@ -18,7 +18,7 @@ public record SignUpRequest(
 	LocalDate birthDate,
 	String gender
 ) {
-	public User toEntity(Role role) {
+	public User toEntity(String password, Role role) {
 		return User.builder()
 			.id(id)
 			.password(password)

@@ -1,5 +1,6 @@
 package com.shiftm.shiftm.domain.user.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +15,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class UserService {
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public User signUp(SignUpRequest requestDto) {
-		return userRepository.save(requestDto.toEntity(Role.USER));
+		String password = passwordEncoder.encode(requestDto.password());
+		return userRepository.save(requestDto.toEntity(password, Role.USER));
 	}
 }
