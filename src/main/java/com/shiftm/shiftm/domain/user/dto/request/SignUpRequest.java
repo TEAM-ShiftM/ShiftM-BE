@@ -7,15 +7,27 @@ import com.shiftm.shiftm.domain.user.domain.enums.Gender;
 import com.shiftm.shiftm.domain.user.domain.enums.Role;
 import com.shiftm.shiftm.domain.user.domain.enums.Status;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public record SignUpRequest(
+	@Pattern(regexp = "^[a-z0-9_-]{5,15}$")
 	String id,
+	@Pattern(regexp = "^[a-zA-Z0-9!@#$%^&*()_-]{8,20}")
 	String password,
+	@Pattern(regexp = "^[a-zA-Z0-9!@#$%^&*()_-]{8,20}")
 	String rePassword,
+	@NotBlank
 	String companyId,
+	@Pattern(regexp = "^(?=.{1,64}@)[a-zA-Z0-9_-]+(\\\\.[a-zA-Z0-9_-]+)*@[^-][a-zA-Z0-9-]+(\\\\.[a-zA-Z0-9-]+)*(\\\\.[a-zA-Z]{2,})$")
 	String email,
+	@NotBlank
 	String verificationNumber,
+	@NotBlank
 	String name,
+	@NotBlank
 	LocalDate birthDate,
+	@NotBlank
 	String gender
 ) {
 	public User toEntity(String password, Role role) {

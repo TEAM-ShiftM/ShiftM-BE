@@ -10,6 +10,7 @@ import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.response.UserResponse;
 import com.shiftm.shiftm.domain.user.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class UserController {
 	private final UserService userService;
 
 	@PostMapping("/signup")
-	public UserResponse signUp(@RequestBody SignUpRequest requestDto) {
+	public UserResponse signUp(@Valid @RequestBody SignUpRequest requestDto) {
 		User user = userService.signUp(requestDto);
 		return new UserResponse(user);
 	}
