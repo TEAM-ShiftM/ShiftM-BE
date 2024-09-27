@@ -8,6 +8,7 @@ import com.shiftm.shiftm.domain.user.domain.enums.Role;
 import com.shiftm.shiftm.domain.user.domain.enums.Status;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record SignUpRequest(
@@ -19,13 +20,13 @@ public record SignUpRequest(
 	String rePassword,
 	@NotBlank
 	String companyId,
-	@Pattern(regexp = "^(?=.{1,64}@)[a-zA-Z0-9_-]+(\\\\.[a-zA-Z0-9_-]+)*@[^-][a-zA-Z0-9-]+(\\\\.[a-zA-Z0-9-]+)*(\\\\.[a-zA-Z]{2,})$")
+	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 	String email,
 	@NotBlank
 	String verificationNumber,
 	@NotBlank
 	String name,
-	@NotBlank
+	@NotNull
 	LocalDate birthDate,
 	@NotBlank
 	String gender
