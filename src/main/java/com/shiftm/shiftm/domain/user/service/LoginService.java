@@ -12,6 +12,7 @@ import com.shiftm.shiftm.domain.user.dto.response.LoginResponse;
 import com.shiftm.shiftm.domain.user.exception.InvalidPasswordException;
 import com.shiftm.shiftm.domain.user.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
+import com.shiftm.shiftm.global.util.jwt.JwtGenerator;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,11 +20,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LoginService {
 	private UserRepository userRepository;
+	private JwtGenerator jwtGenerator;
 	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public LoginResponse login(LoginRequest requestDto) {
 		User user = authenticateUser(requestDto.id(), requestDto.password());
+
+		String accessToken = jwtGenerator.generateAccessToken(user.getId(), user.getRole().name());
 	}
 
 	private User authenticateUser(String id, String password) {
