@@ -17,6 +17,7 @@ public class JwtGenerator {
 	private String secretString;
 	private static final String USER_ROLE_CLAIM_NAME = "role";
 	private static final long ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24;
+	private static final long REFRESH_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 14;
 
 	public String generateAccessToken(final String userId, final String role) {
 		final long now = getNow();
@@ -25,6 +26,16 @@ public class JwtGenerator {
 			.subject(userId)
 			.claim(USER_ROLE_CLAIM_NAME, role)
 			.expiration(getExpiration(now, ACCESS_TOKEN_EXPIRATION_TIME))
+			.signWith(getSigningKey(secretString))
+			.compact();
+	}
+
+	public String generateRefreshToken(final String userId) {
+		final long now = getNow();
+
+		return Jwts.builder()
+			.subject(userId)
+			.expiration(getExpiration(now, REFRESH_TOKEN_EXPIRATION_TIME))
 			.signWith(getSigningKey(secretString))
 			.compact();
 	}

@@ -28,6 +28,7 @@ public class LoginService {
 		User user = authenticateUser(requestDto.id(), requestDto.password());
 
 		String accessToken = jwtGenerator.generateAccessToken(user.getId(), user.getRole().name());
+		String refreshToken = jwtGenerator.generateRefreshToken(user.getId());
 	}
 
 	private User authenticateUser(String id, String password) {
