@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.domain.user.dto.response;
+package com.shiftm.shiftm.domain.auth.dto.response;
 
 public record LoginResponse(
 	String accessToken,

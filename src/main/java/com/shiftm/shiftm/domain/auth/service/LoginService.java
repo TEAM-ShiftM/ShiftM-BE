@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.domain.user.service;
+package com.shiftm.shiftm.domain.auth.service;
 
 import java.util.Optional;
 
@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shiftm.shiftm.domain.user.domain.User;
-import com.shiftm.shiftm.domain.user.dto.request.LoginRequest;
-import com.shiftm.shiftm.domain.user.dto.response.LoginResponse;
-import com.shiftm.shiftm.domain.user.exception.InvalidPasswordException;
-import com.shiftm.shiftm.domain.user.exception.UserNotFoundException;
+import com.shiftm.shiftm.domain.auth.dto.request.LoginRequest;
+import com.shiftm.shiftm.domain.auth.dto.response.LoginResponse;
+import com.shiftm.shiftm.domain.auth.exception.InvalidPasswordException;
+import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
 import com.shiftm.shiftm.global.util.jwt.JwtGenerator;
 
@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LoginService {
 	private UserRepository userRepository;
+	private RefreshTokenService refreshTokenService;
 	private JwtGenerator jwtGenerator;
 	private PasswordEncoder passwordEncoder;
 
@@ -29,6 +30,10 @@ public class LoginService {
 
 		String accessToken = jwtGenerator.generateAccessToken(user.getId(), user.getRole().name());
 		String refreshToken = jwtGenerator.generateRefreshToken(user.getId());
+
+		refreshTokenService.saveRefreshToken(user.getId(), refreshToken);
+
+		return new LoginResponse(accessToken, refreshToken);
 	}
 
 	private User authenticateUser(String id, String password) {

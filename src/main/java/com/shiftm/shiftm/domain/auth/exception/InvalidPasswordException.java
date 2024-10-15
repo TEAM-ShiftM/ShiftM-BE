@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.domain.user.exception;
+package com.shiftm.shiftm.domain.auth.exception;
 
 import com.shiftm.shiftm.global.error.exception.ErrorCode;
 import com.shiftm.shiftm.global.error.exception.InvalidValueException;

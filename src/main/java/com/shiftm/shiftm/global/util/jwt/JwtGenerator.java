@@ -15,6 +15,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtGenerator {
 	@Value("${jwt.secret}")
 	private String secretString;
+
 	private static final String USER_ROLE_CLAIM_NAME = "role";
 	private static final long ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 	private static final long REFRESH_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 14;
