@@ -12,8 +12,14 @@ public enum ErrorCode {
 	/* USER ERROR */
 	ID_DUPLICATE(400, "USER001", "It Is Duplicate ID"),
 	EMAIL_DUPLICATE(400, "USER002", "It Is Duplicate Email"),
-	USER_NOT_FOUND(400, "USER003", "User Not Found"),
-	INVALID_PASSWORD(400, "USER004", "It Is Invalid Password");
+
+	/* AUTH ERROR */
+	USER_NOT_FOUND(400, "AUTH001", "User Not Found"),
+	INVALID_PASSWORD(400, "AUTH002", "It Is Invalid Password"),
+	INVALID_BEARER_PREFIX(400, "AUTH003", "It Is Invalid Bearer Prefix"),
+	INVALID_TOKEN(400, "AUTH004", "It Is Invalid Token"),
+	REFRESH_TOKEN_NOT_FOUND(400, "AUTH005", "Refresh Token Not Found"),
+	INVALID_REFRESH_TOKEN(400, "AUTH006", "It Is Invalid Refresh Token");
 
 	private final int status;
 	private final String code;
