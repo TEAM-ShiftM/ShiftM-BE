@@ -13,7 +13,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtGenerator {
-	@Value("${jwt.secret}")
+	@Value("${jwt.secret.key}")
 	private String secretString;
 
 	private static final String USER_ROLE_CLAIM_NAME = "role";

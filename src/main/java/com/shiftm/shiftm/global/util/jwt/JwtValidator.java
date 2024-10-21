@@ -13,12 +13,10 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Component
 public class JwtValidator {
-	@Value("${jwt.secret}")
+	@Value("${jwt.secret.key}")
 	private String secretString;
 
 	private static final String BEARER = "Bearer ";
@@ -29,6 +27,10 @@ public class JwtValidator {
 		} catch (JwtException e) {
 			throw new InvalidTokenException();
 		}
+	}
+
+	public boolean isRefreshTokenEqual(final String refreshToken, final String storedRefreshToken) {
+		return getToken(refreshToken).equals(storedRefreshToken);
 	}
 
 	public String getSubject(final String refreshToken) {

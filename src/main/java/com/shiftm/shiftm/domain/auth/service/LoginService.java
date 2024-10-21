@@ -55,7 +55,7 @@ public class LoginService {
 	private void authenticateUser(String id, String password) {
 		User user = getUser(id);
 
-		if (!isEqual(user.getPassword(), passwordEncoder.encode(password))) {
+		if (!isMatch(password, user.getPassword())) {
 			throw new InvalidPasswordException();
 		}
 	}
@@ -67,7 +67,7 @@ public class LoginService {
 
 		RefreshToken storedRefreshToken = refreshTokenService.getRefreshToken(userId);
 
-		if (!isEqual(refreshToken, storedRefreshToken.getRefreshToken())) {
+		if (!jwtValidator.isRefreshTokenEqual(refreshToken, storedRefreshToken.getRefreshToken())) {
 			throw new InvalidRefreshTokenException();
 		}
 	}
@@ -91,7 +91,7 @@ public class LoginService {
 		return optionalUser.get();
 	}
 
-	private boolean isEqual(String str1, String str2) {
-		return str1.equals(str2);
+	private boolean isMatch(String password, String storedPassword) {
+		return passwordEncoder.matches(password, storedPassword);
 	}
 }
