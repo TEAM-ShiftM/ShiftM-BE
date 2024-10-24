@@ -10,6 +10,7 @@ import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.user.domain.User;
 import com.shiftm.shiftm.domain.user.domain.enums.Gender;
 import com.shiftm.shiftm.domain.user.domain.enums.Role;
+import com.shiftm.shiftm.domain.user.domain.enums.Status;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.user.exception.EmailDuplicateException;
@@ -52,6 +53,13 @@ public class UserService {
 		user.setGender(Gender.valueOf(requestDto.gender().toUpperCase()));
 
 		return user;
+	}
+
+	@Transactional
+	public void withdraw(String userId) {
+		User user = getUser(userId);
+
+		user.setStatus(Status.INACTIVE);
 	}
 
 	private boolean isIdDuplicate(String id) {

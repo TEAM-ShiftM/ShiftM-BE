@@ -47,6 +47,7 @@ public class User {
 	@Column
 	private LocalDate entryDate;
 
+	@Setter
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Status status;
