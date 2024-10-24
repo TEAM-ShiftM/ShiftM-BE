@@ -8,8 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.user.domain.enums.Gender;
 import com.shiftm.shiftm.domain.user.domain.enums.Role;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
+import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.user.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.user.exception.IdDuplicateException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
@@ -38,6 +40,18 @@ public class UserService {
 
 	public User getProfile(String userId) {
 		return getUser(userId);
+	}
+
+	@Transactional
+	public User updateProfile(String userId, UpdateProfileRequest requestDto) {
+		User user = getUser(userId);
+
+		user.setEmail(requestDto.email());
+		user.setName(requestDto.name());
+		user.setBirthDate(requestDto.birthDate());
+		user.setGender(Gender.valueOf(requestDto.gender().toUpperCase()));
+
+		return user;
 	}
 
 	private boolean isIdDuplicate(String id) {

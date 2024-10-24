@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,15 +27,19 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
+	@Setter
 	@Column(nullable = false, unique = true)
 	private String email;
 
+	@Setter
 	@Column(nullable = false)
 	private String name;
 
+	@Setter
 	@Column(nullable = false)
 	private LocalDate birthDate;
 
+	@Setter
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
