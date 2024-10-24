@@ -1,9 +1,12 @@
 package com.shiftm.shiftm.domain.user.service;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.user.domain.User;
 import com.shiftm.shiftm.domain.user.domain.enums.Role;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
@@ -33,11 +36,25 @@ public class UserService {
 		return userRepository.save(requestDto.toEntity(password, Role.USER));
 	}
 
+	public User getProfile(String userId) {
+		return getUser(userId);
+	}
+
 	private boolean isIdDuplicate(String id) {
 		return userRepository.existsById(id);
 	}
 
 	private boolean isEmailDuplicate(String email) {
 		return userRepository.existsByEmail(email);
+	}
+
+	private User getUser(String userId) {
+		Optional<User> optionalUser = userRepository.findById(userId);
+
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException(userId);
+		}
+
+		return optionalUser.get();
 	}
 }
