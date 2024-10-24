@@ -1,5 +1,6 @@
 package com.shiftm.shiftm.domain.user.api;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,5 +42,12 @@ public class UserController {
 	public UserResponse updateProfile(@RequestParam String userId, @Valid @RequestBody UpdateProfileRequest requestDto) {
 		User user = userService.updateProfile(userId, requestDto);
 		return new UserResponse(user);
+	}
+
+	/* 하드 코딩 - userId 수정 필요 */
+	@DeleteMapping("/me")
+	public String withdraw(@RequestParam String userId) {
+		userService.withdraw(userId);
+		return "회원 탈퇴 완료";
 	}
 }
