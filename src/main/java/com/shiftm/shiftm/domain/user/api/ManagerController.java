@@ -3,6 +3,7 @@ package com.shiftm.shiftm.domain.user.api;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,5 +45,11 @@ public class ManagerController {
 	public UserResponse updateEmployee(@PathVariable String id, @RequestBody UpdateProfileRequest requestDto) {
 		User user = userService.updateProfile(id, requestDto);
 		return new UserResponse(user);
+	}
+
+	@DeleteMapping("/user/{id}")
+	public String deleteEmployee(@PathVariable String id) {
+		userService.withdraw(id);
+		return "회원 탈퇴 완료";
 	}
 }
