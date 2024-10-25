@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.user.dto.response.UserResponse;
 import com.shiftm.shiftm.domain.user.service.ManagerService;
 import com.shiftm.shiftm.domain.user.service.UserService;
@@ -34,6 +37,12 @@ public class ManagerController {
 	@GetMapping("/user/{id}")
 	public UserResponse getEmployee(@PathVariable String id) {
 		User user = userService.getProfile(id);
+		return new UserResponse(user);
+	}
+
+	@PatchMapping("/user/{id}")
+	public UserResponse updateEmployee(@PathVariable String id, @RequestBody UpdateProfileRequest requestDto) {
+		User user = userService.updateProfile(id, requestDto);
 		return new UserResponse(user);
 	}
 }
