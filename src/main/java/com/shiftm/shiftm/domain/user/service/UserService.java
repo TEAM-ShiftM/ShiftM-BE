@@ -2,6 +2,7 @@ package com.shiftm.shiftm.domain.user.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.user.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.user.exception.IdDuplicateException;
+import com.shiftm.shiftm.domain.user.exception.InvalidCompanyIdException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,9 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
+	@Value("${shiftm.company.key}")
+	private String companyKey;
+
 	@Transactional
 	public User signUp(SignUpRequest requestDto) {
 		if (isIdDuplicate(requestDto.id())) {
@@ -33,6 +38,10 @@ public class UserService {
 
 		if (isEmailDuplicate(requestDto.email())) {
 			throw new EmailDuplicateException(requestDto.email());
+		}
+
+		if (!isValidCompanyId(requestDto.companyId())) {
+			throw new InvalidCompanyIdException(requestDto.companyId());
 		}
 
 		String password = passwordEncoder.encode(requestDto.password());
@@ -68,6 +77,10 @@ public class UserService {
 
 	private boolean isEmailDuplicate(String email) {
 		return userRepository.existsByEmail(email);
+	}
+
+	private boolean isValidCompanyId(String companyId) {
+		return companyId.equals(companyKey);
 	}
 
 	private User getUser(String userId) {
