@@ -12,6 +12,7 @@ public enum ErrorCode {
 	/* USER ERROR */
 	ID_DUPLICATE(400, "USER001", "It Is Duplicate ID"),
 	EMAIL_DUPLICATE(400, "USER002", "It Is Duplicate Email"),
+	INVALID_COMPANY_ID(400, "USER003", "It Is Invalid Company Id"),
 
 	/* AUTH ERROR */
 	USER_NOT_FOUND(400, "AUTH001", "User Not Found"),
