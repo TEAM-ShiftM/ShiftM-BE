@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.user.dto.request.IdValidationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
+import com.shiftm.shiftm.domain.user.dto.response.IdValidationResponse;
 import com.shiftm.shiftm.domain.user.dto.response.UserResponse;
 import com.shiftm.shiftm.domain.user.service.UserService;
 
@@ -28,6 +30,12 @@ public class UserController {
 	public UserResponse signUp(@Valid @RequestBody SignUpRequest requestDto) {
 		User user = userService.signUp(requestDto);
 		return new UserResponse(user);
+	}
+
+	@PostMapping("/validation/id")
+	public IdValidationResponse isIdDuplicated(@RequestBody IdValidationRequest requestDto) {
+		boolean isIdDuplicated = userService.isIdDuplicated(requestDto.id());
+		return new IdValidationResponse(isIdDuplicated);
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */

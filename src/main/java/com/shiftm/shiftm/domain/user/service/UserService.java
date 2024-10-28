@@ -32,11 +32,11 @@ public class UserService {
 
 	@Transactional
 	public User signUp(SignUpRequest requestDto) {
-		if (isIdDuplicate(requestDto.id())) {
+		if (isIdDuplicated(requestDto.id())) {
 			throw new IdDuplicateException(requestDto.id());
 		}
 
-		if (isEmailDuplicate(requestDto.email())) {
+		if (isEmailDuplicated(requestDto.email())) {
 			throw new EmailDuplicateException(requestDto.email());
 		}
 
@@ -71,11 +71,11 @@ public class UserService {
 		user.setStatus(Status.INACTIVE);
 	}
 
-	private boolean isIdDuplicate(String id) {
+	public boolean isIdDuplicated(String id) {
 		return userRepository.existsById(id);
 	}
 
-	private boolean isEmailDuplicate(String email) {
+	private boolean isEmailDuplicated(String email) {
 		return userRepository.existsByEmail(email);
 	}
 
