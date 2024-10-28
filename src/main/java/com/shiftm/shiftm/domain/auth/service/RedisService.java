@@ -38,4 +38,8 @@ public class RedisService {
 	public void deleteValues(String key) {
 		redisTemplate.delete(key);
 	}
+
+	public boolean isValueExist(String value) {
+		return !value.equals("false");
+	}
 }

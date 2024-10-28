@@ -36,6 +36,13 @@ public class EmailService {
 		mailSender.sendMail(email, "ShiftM 이메일 인증 번호", verificationCode);
 	}
 
+	@Transactional
+	public boolean verifyEmailCode(String email, String verificationCode) {
+		String storedVerificationCode = redisService.getValues(VERIFICATION_CODE_PREFIX + email);
+
+		return storedVerificationCode.equals(verificationCode);
+	}
+
 	private String createVerificationCode() {
 		Random random = new Random();
 		StringBuilder verificationCode = new StringBuilder();

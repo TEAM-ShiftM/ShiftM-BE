@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.user.dto.request.EmailCodeVerificationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.EmailVerificationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.IdValidationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
+import com.shiftm.shiftm.domain.user.dto.response.EmailCodeVerificationResponse;
 import com.shiftm.shiftm.domain.user.dto.response.IdValidationResponse;
 import com.shiftm.shiftm.domain.user.dto.response.UserResponse;
 import com.shiftm.shiftm.domain.user.service.EmailService;
@@ -44,6 +46,12 @@ public class UserController {
 	@PostMapping("/verification/email")
 	public void sendEmailVerificationCode(@RequestBody EmailVerificationRequest requestDto) {
 		emailService.sendEmailVerificationCode(requestDto.email());
+	}
+
+	@PostMapping("/verification/email/code")
+	public EmailCodeVerificationResponse verifyEmailCode(@RequestBody EmailCodeVerificationRequest requestDto) {
+		boolean isVerifiedEmailCode = emailService.verifyEmailCode(requestDto.email(), requestDto.verificationCode());
+		return new EmailCodeVerificationResponse(isVerifiedEmailCode);
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */
