@@ -1,10 +1,12 @@
 package com.shiftm.shiftm.domain.user.service;
 
+import java.time.Duration;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shiftm.shiftm.domain.auth.service.RedisService;
 import com.shiftm.shiftm.domain.user.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
 import com.shiftm.shiftm.infra.email.MailSender;
@@ -15,7 +17,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class EmailService {
 	private final UserRepository userRepository;
+	private final RedisService redisService;
 	private final MailSender mailSender;
+
+	private static final String VERIFICATION_CODE_PREFIX = "Verification Code ";
+	private static final long VERIFICATION_CODE_EXPIRATION_TIME = 1000 * 60 * 5;
 
 	@Transactional
 	public void sendEmailVerificationCode(String email) {
@@ -24,6 +30,8 @@ public class EmailService {
 		}
 
 		String verificationCode = createVerificationCode();
+
+		redisService.saveValues(VERIFICATION_CODE_PREFIX + email, verificationCode, Duration.ofMillis(VERIFICATION_CODE_EXPIRATION_TIME));
 
 		mailSender.sendMail(email, "ShiftM 이메일 인증 번호", verificationCode);
 	}
