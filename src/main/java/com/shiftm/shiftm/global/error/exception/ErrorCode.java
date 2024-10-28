@@ -20,7 +20,10 @@ public enum ErrorCode {
 	INVALID_BEARER_PREFIX(400, "AUTH003", "It Is Invalid Bearer Prefix"),
 	INVALID_TOKEN(400, "AUTH004", "It Is Invalid Token"),
 	REFRESH_TOKEN_NOT_FOUND(400, "AUTH005", "Refresh Token Not Found"),
-	INVALID_REFRESH_TOKEN(400, "AUTH006", "It Is Invalid Refresh Token");
+	INVALID_REFRESH_TOKEN(400, "AUTH006", "It Is Invalid Refresh Token"),
+
+	/* EMAIL ERROR */
+	UNABLE_TO_SEND_EMAIL(500, "EMAIL001", "Unable To Send Email");
 
 	private final int status;
 	private final String code;

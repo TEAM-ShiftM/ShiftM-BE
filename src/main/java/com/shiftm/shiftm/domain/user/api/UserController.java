@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.user.dto.request.EmailVerificationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.IdValidationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.user.dto.response.IdValidationResponse;
 import com.shiftm.shiftm.domain.user.dto.response.UserResponse;
+import com.shiftm.shiftm.domain.user.service.EmailService;
 import com.shiftm.shiftm.domain.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -25,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class UserController {
 	private final UserService userService;
+	private final EmailService emailService;
 
 	@PostMapping("/signup")
 	public UserResponse signUp(@Valid @RequestBody SignUpRequest requestDto) {
@@ -36,6 +39,11 @@ public class UserController {
 	public IdValidationResponse isIdDuplicated(@RequestBody IdValidationRequest requestDto) {
 		boolean isIdDuplicated = userService.isIdDuplicated(requestDto.id());
 		return new IdValidationResponse(isIdDuplicated);
+	}
+
+	@PostMapping("/verification/email")
+	public void sendEmailVerificationCode(@RequestBody EmailVerificationRequest requestDto) {
+		emailService.sendEmailVerificationCode(requestDto.email());
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */
