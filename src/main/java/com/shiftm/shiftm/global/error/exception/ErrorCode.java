@@ -22,6 +22,8 @@ public enum ErrorCode {
 	REFRESH_TOKEN_NOT_FOUND(400, "AUTH005", "Refresh Token Not Found"),
 	INVALID_REFRESH_TOKEN(400, "AUTH006", "It Is Invalid Refresh Token"),
 
+	/* SHIFT ERROR */
+	SHIFT_NOT_FOUND(400, "SHIFT001", "Shift Not Found"),
 	/* EMAIL ERROR */
 	UNABLE_TO_SEND_EMAIL(500, "EMAIL001", "Unable To Send Email");
 
