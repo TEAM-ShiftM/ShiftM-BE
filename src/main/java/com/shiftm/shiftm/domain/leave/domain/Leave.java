@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,4 +36,11 @@ public class Leave {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	@Builder
+	public Leave(LocalDate expirationDate, Integer count, User user) {
+		this.expirationDate = expirationDate;
+		this.count = count;
+		this.user = user;
+	}
 }
