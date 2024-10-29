@@ -13,6 +13,7 @@ import com.shiftm.shiftm.domain.user.domain.User;
 import com.shiftm.shiftm.domain.user.dto.request.EmailCodeVerificationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.EmailVerificationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.FindIdRequest;
+import com.shiftm.shiftm.domain.user.dto.request.FindPasswordRequest;
 import com.shiftm.shiftm.domain.user.dto.request.IdValidationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
@@ -58,6 +59,11 @@ public class UserController {
 	@PostMapping("/find/id")
 	public void findId(@RequestBody FindIdRequest requestDto) {
 		emailService.findId(requestDto.email());
+	}
+
+	@PostMapping("/find/password")
+	public void findPassword(@RequestBody FindPasswordRequest requestDto) {
+		emailService.findPassword(requestDto.id(), requestDto.email());
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */

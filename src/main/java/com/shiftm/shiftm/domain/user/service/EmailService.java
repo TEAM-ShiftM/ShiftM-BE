@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.Random;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import com.shiftm.shiftm.domain.auth.service.RedisService;
 import com.shiftm.shiftm.domain.user.domain.User;
 import com.shiftm.shiftm.domain.user.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
+import com.shiftm.shiftm.global.util.password.TempPasswordGenerator;
 import com.shiftm.shiftm.infra.email.MailSender;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,8 @@ public class EmailService {
 	private final UserRepository userRepository;
 	private final RedisService redisService;
 	private final MailSender mailSender;
+	private final TempPasswordGenerator tempPasswordGenerator;
+	private final PasswordEncoder passwordEncoder;
 
 	private static final String VERIFICATION_CODE_PREFIX = "Verification Code ";
 	private static final long VERIFICATION_CODE_EXPIRATION_TIME = 1000 * 60 * 5;
@@ -52,6 +56,21 @@ public class EmailService {
 		mailSender.sendMail(email, "ShiftM 아이디 찾기", user.getId());
 	}
 
+	@Transactional
+	public void findPassword(String id, String email) {
+		User user = getUser(email);
+
+		if (!isIdEquals(id, user.getId())) {
+			throw new UserNotFoundException(id);
+		}
+
+		String tempPassword = tempPasswordGenerator.generateTemporaryPassword();
+
+		user.setPassword(passwordEncoder.encode(tempPassword));
+
+		mailSender.sendMail(email, "ShiftM 임시 비밀번호", tempPassword);
+	}
+
 	private String createVerificationCode() {
 		Random random = new Random();
 		StringBuilder verificationCode = new StringBuilder();
@@ -65,6 +84,10 @@ public class EmailService {
 
 	private boolean isEmailDuplicated(String email) {
 		return userRepository.existsByEmail(email);
+	}
+
+	private boolean isIdEquals(String id, String storedId) {
+		return id.equals(storedId);
 	}
 
 	private User getUser(String email) {
