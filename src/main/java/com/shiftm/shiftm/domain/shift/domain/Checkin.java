@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,10 @@ public class Checkin {
 
 	@Column(nullable = false)
 	private Boolean approval;
+
+	@Builder
+	public Checkin(LocalDateTime checkinTime, Boolean approval) {
+		this.checkinTime = checkinTime;
+		this.approval = approval;
+	}
 }

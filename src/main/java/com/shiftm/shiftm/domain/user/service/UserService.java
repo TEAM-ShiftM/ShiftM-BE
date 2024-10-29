@@ -83,7 +83,7 @@ public class UserService {
 		return companyId.equals(companyKey);
 	}
 
-	private User getUser(String userId) {
+	public User getUser(String userId) {
 		Optional<User> optionalUser = userRepository.findById(userId);
 
 		if (optionalUser.isEmpty()) {
