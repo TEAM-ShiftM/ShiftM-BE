@@ -24,6 +24,7 @@ public class User {
 	@Id
 	private String id;
 
+	@Setter
 	@Column(nullable = false)
 	private String password;
 
