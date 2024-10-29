@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class Checkout {
-	@Column(nullable = false)
+	@Column
 	private LocalDateTime checkoutTime;
 }
