@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shiftm.shiftm.domain.user.domain.User;
 import com.shiftm.shiftm.domain.user.dto.request.EmailCodeVerificationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.EmailVerificationRequest;
+import com.shiftm.shiftm.domain.user.dto.request.FindIdRequest;
 import com.shiftm.shiftm.domain.user.dto.request.IdValidationRequest;
 import com.shiftm.shiftm.domain.user.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.user.dto.request.UpdateProfileRequest;
@@ -52,6 +53,11 @@ public class UserController {
 	public EmailCodeVerificationResponse verifyEmailCode(@RequestBody EmailCodeVerificationRequest requestDto) {
 		boolean isVerifiedEmailCode = emailService.verifyEmailCode(requestDto.email(), requestDto.verificationCode());
 		return new EmailCodeVerificationResponse(isVerifiedEmailCode);
+	}
+
+	@PostMapping("/find/id")
+	public void findId(@RequestBody FindIdRequest requestDto) {
+		emailService.findId(requestDto.email());
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */

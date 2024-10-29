@@ -1,12 +1,15 @@
 package com.shiftm.shiftm.domain.user.service;
 
 import java.time.Duration;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.auth.service.RedisService;
+import com.shiftm.shiftm.domain.user.domain.User;
 import com.shiftm.shiftm.domain.user.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.user.repository.UserRepository;
 import com.shiftm.shiftm.infra.email.MailSender;
@@ -43,6 +46,12 @@ public class EmailService {
 		return storedVerificationCode.equals(verificationCode);
 	}
 
+	public void findId(String email) {
+		User user = getUser(email);
+
+		mailSender.sendMail(email, "ShiftM 아이디 찾기", user.getId());
+	}
+
 	private String createVerificationCode() {
 		Random random = new Random();
 		StringBuilder verificationCode = new StringBuilder();
@@ -56,5 +65,15 @@ public class EmailService {
 
 	private boolean isEmailDuplicated(String email) {
 		return userRepository.existsByEmail(email);
+	}
+
+	private User getUser(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException(email);
+		}
+
+		return optionalUser.get();
 	}
 }
