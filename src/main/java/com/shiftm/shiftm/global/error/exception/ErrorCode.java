@@ -24,6 +24,10 @@ public enum ErrorCode {
 
 	/* SHIFT ERROR */
 	SHIFT_NOT_FOUND(400, "SHIFT001", "Shift Not Found"),
+
+	/* LEAVE ERROR */
+	LEAVE_NOT_FOUND(400, "LEAVE001", "Leave Not Found"),
+
 	/* EMAIL ERROR */
 	UNABLE_TO_SEND_EMAIL(500, "EMAIL001", "Unable To Send Email");
 
