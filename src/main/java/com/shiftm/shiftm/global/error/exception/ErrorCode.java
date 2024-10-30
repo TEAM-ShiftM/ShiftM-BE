@@ -29,6 +29,9 @@ public enum ErrorCode {
 	LEAVE_NOT_FOUND(400, "LEAVE001", "Leave Not Found"),
 	INVALID_LEAVE_DAYS(400, "LEAVE002", "It Is Invalid Leave Days"),
 
+	/* LEAVE REQUEST ERROR */
+	LEAVE_REQUEST_NOT_FOUND(400, "LR001", "Leave Request Not Found"),
+
 	/* EMAIL ERROR */
 	UNABLE_TO_SEND_EMAIL(500, "EMAIL001", "Unable To Send Email");
 
