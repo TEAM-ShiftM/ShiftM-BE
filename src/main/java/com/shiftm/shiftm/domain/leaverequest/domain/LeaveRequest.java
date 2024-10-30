@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -45,4 +46,15 @@ public class LeaveRequest {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "leaves_id")
 	private Leave leave;
+
+	@Builder
+	public LeaveRequest(LocalDate startDate, LocalDate endDate, Boolean approval,
+		LocalDateTime createdAt, User user, Leave leave) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.approval = approval;
+		this.createdAt = createdAt;
+		this.user = user;
+		this.leave = leave;
+	}
 }
