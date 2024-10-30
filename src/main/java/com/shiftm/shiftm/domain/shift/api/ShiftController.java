@@ -1,5 +1,6 @@
 package com.shiftm.shiftm.domain.shift.api;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shiftm.shiftm.domain.shift.domain.Shift;
 import com.shiftm.shiftm.domain.shift.dto.response.CheckInResponse;
 import com.shiftm.shiftm.domain.shift.dto.response.CheckOutResponse;
+import com.shiftm.shiftm.domain.shift.dto.response.ShiftTimeOfWeekResponse;
 import com.shiftm.shiftm.domain.shift.service.ShiftService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,5 +31,11 @@ public class ShiftController {
 	public CheckOutResponse recordCheckOut(@RequestParam String userId) {
 		Shift shift = shiftService.recordCheckOut(userId);
 		return new CheckOutResponse(shift);
+	}
+
+	@GetMapping()
+	public ShiftTimeOfWeekResponse getShiftTimeOfWeek(@RequestParam String userId) {
+		long weeklyShiftTime = shiftService.getShiftTimeOfWeek(userId);
+		return new ShiftTimeOfWeekResponse(weeklyShiftTime);
 	}
 }

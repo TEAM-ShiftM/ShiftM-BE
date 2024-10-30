@@ -1,6 +1,10 @@
 package com.shiftm.shiftm.domain.shift.service;
 
+import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +43,31 @@ public class ShiftService {
 		return shift;
 	}
 
+	public long getShiftTimeOfWeek(String userId) {
+		List<Shift> weeklyShift = getShiftOfWeek(userId);
+
+		long weeklyShiftTime = 0;
+
+		for (Shift shift: weeklyShift) {
+			if (shift.getCheckin() != null && shift.getCheckout() != null) {
+				LocalDateTime checkInTime = shift.getCheckin().getCheckinTime();
+				LocalDateTime checkOutTime = shift.getCheckout().getCheckoutTime();
+
+				long minutesWorked = Duration.between(checkInTime, checkOutTime).toMinutes();
+				weeklyShiftTime += minutesWorked;
+			}
+		}
+
+		return weeklyShiftTime;
+	}
+
+	private List<Shift> getShiftOfWeek(String userId) {
+		LocalDateTime startOfWeek = getStartOfWeek();
+		LocalDateTime endOfWeek = getEndOfWeek();
+
+		return shiftRepository.findWeeklyShiftsByUserId(userId, startOfWeek, endOfWeek);
+	}
+
 	private Shift createShift(Checkin checkin, String userId) {
 		return Shift.builder()
 			.checkin(checkin)
@@ -67,5 +96,17 @@ public class ShiftService {
 		}
 
 		return optionalShift.get();
+	}
+
+	private LocalDateTime getStartOfWeek() {
+		return LocalDateTime.now()
+			.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
+			.withHour(0).withMinute(0).withSecond(0).withNano(0);
+	}
+
+	private LocalDateTime getEndOfWeek() {
+		return LocalDateTime.now()
+			.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY))
+			.withHour(23).withMinute(59).withSecond(59).withNano(999999999);
 	}
 }
