@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.shiftm.shiftm.domain.leave.domain.Leave;
-import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +43,7 @@ public class LeaveRequest {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	private Member user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "leaves_id")
@@ -51,7 +51,7 @@ public class LeaveRequest {
 
 	@Builder
 	public LeaveRequest(LocalDate startDate, LocalDate endDate, Boolean approval,
-		LocalDateTime createdAt, User user, Leave leave) {
+		LocalDateTime createdAt, Member user, Leave leave) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.approval = approval;

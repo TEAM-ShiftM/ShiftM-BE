@@ -1,6 +1,6 @@
 package com.shiftm.shiftm.domain.shift.domain;
 
-import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.member.domain.Member;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -33,10 +33,10 @@ public class Shift {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	private Member user;
 
 	@Builder
-	public Shift(Checkin checkin, User user) {
+	public Shift(Checkin checkin, Member user) {
 		this.checkin = checkin;
 		this.user = user;
 	}

@@ -12,8 +12,8 @@ import com.shiftm.shiftm.domain.leave.service.LeaveService;
 import com.shiftm.shiftm.domain.leaverequest.domain.LeaveRequest;
 import com.shiftm.shiftm.domain.leaverequest.dto.request.RequestLeaveRequest;
 import com.shiftm.shiftm.domain.leaverequest.repository.LeaveRequestRepository;
-import com.shiftm.shiftm.domain.user.domain.User;
-import com.shiftm.shiftm.domain.user.service.UserService;
+import com.shiftm.shiftm.domain.member.domain.Member;
+import com.shiftm.shiftm.domain.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,12 +21,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LeaveRequestService {
 	private final LeaveRequestRepository leaveRequestRepository;
-	private final UserService userService;
+	private final MemberService userService;
 	private final LeaveService leaveService;
 
 	@Transactional
 	public LeaveRequest requestLeave(String userId, RequestLeaveRequest requestDto) {
-		User user = userService.getUser(userId);
+		Member user = userService.getUser(userId);
 
 		Leave leave = leaveService.getLeave(userId);
 		int leaveDays = calculateLeaveDays(requestDto.startDate(), requestDto.endDate());
@@ -38,7 +38,7 @@ public class LeaveRequestService {
 	}
 
 	private LeaveRequest createLeaveRequest(LocalDate startDate, LocalDate endDate,
-		User user, Leave leave) {
+		Member user, Leave leave) {
 		return LeaveRequest.builder()
 			.startDate(startDate)
 			.endDate(endDate)

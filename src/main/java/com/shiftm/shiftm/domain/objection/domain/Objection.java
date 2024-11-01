@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.shiftm.shiftm.domain.leave.domain.Leave;
 import com.shiftm.shiftm.domain.objection.domain.enums.Type;
 import com.shiftm.shiftm.domain.shift.domain.Shift;
-import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,7 +41,7 @@ public class Objection {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	private Member user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "shift_id")

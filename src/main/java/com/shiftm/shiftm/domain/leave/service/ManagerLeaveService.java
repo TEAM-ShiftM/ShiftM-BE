@@ -11,8 +11,8 @@ import com.shiftm.shiftm.domain.leave.dto.request.CreateLeaveRequest;
 import com.shiftm.shiftm.domain.leave.dto.request.UpdateLeaveRequest;
 import com.shiftm.shiftm.domain.leave.exception.LeaveNotFoundException;
 import com.shiftm.shiftm.domain.leave.repository.LeaveRepository;
-import com.shiftm.shiftm.domain.user.domain.User;
-import com.shiftm.shiftm.domain.user.service.UserService;
+import com.shiftm.shiftm.domain.member.domain.Member;
+import com.shiftm.shiftm.domain.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,11 +20,11 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ManagerLeaveService {
 	private final LeaveRepository leaveRepository;
-	private final UserService userService;
+	private final MemberService userService;
 
 	@Transactional
 	public Leave createLeave(CreateLeaveRequest requestDto) {
-		User user = userService.getUser(requestDto.userId());
+		Member user = userService.getUser(requestDto.userId());
 		Leave leave = createLeaveObj(requestDto.expirationDate(), requestDto.count(), user);
 
 		return leaveRepository.save(leave);
@@ -40,7 +40,7 @@ public class ManagerLeaveService {
 		return leave;
 	}
 
-	private Leave createLeaveObj(LocalDate expirationDate, int count, User user) {
+	private Leave createLeaveObj(LocalDate expirationDate, int count, Member user) {
 		return Leave.builder()
 			.expirationDate(expirationDate)
 			.count(count)

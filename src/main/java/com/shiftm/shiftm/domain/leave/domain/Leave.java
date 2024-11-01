@@ -2,7 +2,7 @@ package com.shiftm.shiftm.domain.leave.domain;
 
 import java.time.LocalDate;
 
-import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.member.domain.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,10 +38,10 @@ public class Leave {
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private User user;
+	private Member user;
 
 	@Builder
-	public Leave(LocalDate expirationDate, Integer count, User user) {
+	public Leave(LocalDate expirationDate, Integer count, Member user) {
 		this.expirationDate = expirationDate;
 		this.count = count;
 		this.user = user;

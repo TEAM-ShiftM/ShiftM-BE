@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.shiftm.shiftm.domain.auth.domain.RefreshToken;
 import com.shiftm.shiftm.domain.auth.exception.InvalidRefreshTokenException;
-import com.shiftm.shiftm.domain.user.domain.User;
+import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.auth.dto.request.LoginRequest;
 import com.shiftm.shiftm.domain.auth.dto.response.TokenResponse;
 import com.shiftm.shiftm.domain.auth.exception.InvalidPasswordException;
 import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
-import com.shiftm.shiftm.domain.user.repository.UserRepository;
+import com.shiftm.shiftm.domain.member.dao.MemberRepository;
 import com.shiftm.shiftm.global.util.jwt.JwtGenerator;
 import com.shiftm.shiftm.global.util.jwt.JwtValidator;
 
@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class LoginService {
-	private final UserRepository userRepository;
+	private final MemberRepository userRepository;
 	private final RefreshTokenService refreshTokenService;
 	private final JwtGenerator jwtGenerator;
 	private final JwtValidator jwtValidator;
@@ -53,7 +53,7 @@ public class LoginService {
 	}
 
 	private void authenticateUser(String id, String password) {
-		User user = getUser(id);
+		Member user = getUser(id);
 
 		if (!isMatch(password, user.getPassword())) {
 			throw new InvalidPasswordException();
@@ -73,7 +73,7 @@ public class LoginService {
 	}
 
 	private TokenResponse generateToken(String userId) {
-		User user = getUser(userId);
+		Member user = getUser(userId);
 
 		String accessToken = jwtGenerator.generateAccessToken(user.getId(), user.getRole().name());
 		String refreshToken = jwtGenerator.generateRefreshToken(user.getId());
@@ -81,8 +81,8 @@ public class LoginService {
 		return new TokenResponse(accessToken, refreshToken);
 	}
 
-	private User getUser(String userId) {
-		Optional<User> optionalUser = userRepository.findById(userId);
+	private Member getUser(String userId) {
+		Optional<Member> optionalUser = userRepository.findById(userId);
 
 		if (optionalUser.isEmpty()) {
 			throw new UserNotFoundException(userId);

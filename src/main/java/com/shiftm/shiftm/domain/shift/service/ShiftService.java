@@ -15,7 +15,7 @@ import com.shiftm.shiftm.domain.shift.domain.Checkout;
 import com.shiftm.shiftm.domain.shift.domain.Shift;
 import com.shiftm.shiftm.domain.shift.exception.ShiftNotFoundException;
 import com.shiftm.shiftm.domain.shift.repository.ShiftRepository;
-import com.shiftm.shiftm.domain.user.service.UserService;
+import com.shiftm.shiftm.domain.member.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ShiftService {
 	private final ShiftRepository shiftRepository;
-	private final UserService userService;
+	private final MemberService userService;
 
 	@Transactional
 	public Shift recordCheckIn(String userId) {
