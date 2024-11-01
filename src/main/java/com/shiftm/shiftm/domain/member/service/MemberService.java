@@ -2,7 +2,6 @@ package com.shiftm.shiftm.domain.member.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +17,6 @@ import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.member.exception.IdDuplicateException;
-import com.shiftm.shiftm.domain.member.exception.InvalidCompanyIdException;
 import com.shiftm.shiftm.domain.member.dao.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
