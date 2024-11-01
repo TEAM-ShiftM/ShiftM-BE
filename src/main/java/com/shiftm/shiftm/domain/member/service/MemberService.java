@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
+import com.shiftm.shiftm.domain.member.dao.MemberFinder;
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.domain.enums.Gender;
 import com.shiftm.shiftm.domain.member.domain.enums.Role;
 import com.shiftm.shiftm.domain.member.domain.enums.Status;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
+import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.member.exception.IdDuplicateException;
 import com.shiftm.shiftm.domain.member.exception.InvalidCompanyIdException;
@@ -24,28 +26,28 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class MemberService {
-	private final MemberRepository userRepository;
+	private final MemberRepository memberRepository;
+	private final MemberFinder memberFinder;
 	private final PasswordEncoder passwordEncoder;
 
-	@Value("${shiftm.company.key}")
-	private String companyKey;
-
 	@Transactional
-	public Member signUp(SignUpRequest requestDto) {
-		if (isIdDuplicated(requestDto.id())) {
+	public MemberResponse signUp(SignUpRequest requestDto) {
+		validateSignUpRequest(requestDto);
+
+		String password = passwordEncoder.encode(requestDto.password());
+		Member member = memberRepository.save(requestDto.toEntity(password, Role.USER));
+
+		return new MemberResponse(member);
+	}
+
+	private void validateSignUpRequest(SignUpRequest requestDto) {
+		if (memberFinder.isExistedId(requestDto.id())) {
 			throw new IdDuplicateException(requestDto.id());
 		}
 
-		if (isEmailDuplicated(requestDto.email())) {
+		if (memberFinder.isExistedEmail(requestDto.email())) {
 			throw new EmailDuplicateException(requestDto.email());
 		}
-
-		if (!isValidCompanyId(requestDto.companyId())) {
-			throw new InvalidCompanyIdException(requestDto.companyId());
-		}
-
-		String password = passwordEncoder.encode(requestDto.password());
-		return userRepository.save(requestDto.toEntity(password, Role.USER));
 	}
 
 	public Member getProfile(String userId) {
@@ -71,20 +73,8 @@ public class MemberService {
 		user.setStatus(Status.INACTIVE);
 	}
 
-	public boolean isIdDuplicated(String id) {
-		return userRepository.existsById(id);
-	}
-
-	private boolean isEmailDuplicated(String email) {
-		return userRepository.existsByEmail(email);
-	}
-
-	private boolean isValidCompanyId(String companyId) {
-		return companyId.equals(companyKey);
-	}
-
 	public Member getUser(String userId) {
-		Optional<Member> optionalUser = userRepository.findById(userId);
+		Optional<Member> optionalUser = memberRepository.findById(userId);
 
 		if (optionalUser.isEmpty()) {
 			throw new UserNotFoundException(userId);
