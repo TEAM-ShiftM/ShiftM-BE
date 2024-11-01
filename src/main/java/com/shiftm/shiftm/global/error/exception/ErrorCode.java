@@ -9,10 +9,9 @@ public enum ErrorCode {
 	INVALID_INPUT_VALUE(400, "COMMON002", "Invalid Input Value"),
 	ENTITY_NOT_FOUND(400, "COMMON003", "Entity Not Found"),
 
-	/* USER ERROR */
-	ID_DUPLICATE(400, "USER001", "It Is Duplicate ID"),
-	EMAIL_DUPLICATE(400, "USER002", "It Is Duplicate Email"),
-	INVALID_COMPANY_ID(400, "USER003", "It Is Invalid Company Id"),
+	/* MEMBER ERROR */
+	ID_DUPLICATE(400, "MEM001", "It Is Duplicate ID"),
+	EMAIL_DUPLICATE(400, "MEM002", "It Is Duplicate Email"),
 
 	/* AUTH ERROR */
 	USER_NOT_FOUND(400, "AUTH001", "User Not Found"),

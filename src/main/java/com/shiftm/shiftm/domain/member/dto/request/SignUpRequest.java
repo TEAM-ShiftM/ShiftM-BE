@@ -16,14 +16,10 @@ public record SignUpRequest(
 	String id,
 	@Pattern(regexp = "^[a-zA-Z0-9!@#$%^&*()_-]{8,20}")
 	String password,
-	@Pattern(regexp = "^[a-zA-Z0-9!@#$%^&*()_-]{8,20}")
-	String rePassword,
 	@NotBlank
 	String companyId,
 	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 	String email,
-	@NotBlank
-	String verificationNumber,
 	@NotBlank
 	String name,
 	@NotNull

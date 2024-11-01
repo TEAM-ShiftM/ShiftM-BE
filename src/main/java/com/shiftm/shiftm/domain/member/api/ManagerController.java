@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
-import com.shiftm.shiftm.domain.member.dto.response.UserResponse;
+import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.service.ManagerService;
 import com.shiftm.shiftm.domain.member.service.MemberService;
 
@@ -27,24 +27,24 @@ public class ManagerController {
 
 	/* 하드 코딩 - userId 수정 필요 */
 	@GetMapping("/user")
-	public List<UserResponse> getEmployeeList() {
+	public List<MemberResponse> getEmployeeList() {
 		List<Member> userList = managerService.getEmployeeList();
 
 		return userList.stream()
-			.map(UserResponse::new)
+			.map(MemberResponse::new)
 			.collect(Collectors.toList());
 	}
 
 	@GetMapping("/user/{id}")
-	public UserResponse getEmployee(@PathVariable String id) {
+	public MemberResponse getEmployee(@PathVariable String id) {
 		Member user = userService.getProfile(id);
-		return new UserResponse(user);
+		return new MemberResponse(user);
 	}
 
 	@PatchMapping("/user/{id}")
-	public UserResponse updateEmployee(@PathVariable String id, @RequestBody UpdateProfileRequest requestDto) {
+	public MemberResponse updateEmployee(@PathVariable String id, @RequestBody UpdateProfileRequest requestDto) {
 		Member user = userService.updateProfile(id, requestDto);
-		return new UserResponse(user);
+		return new MemberResponse(user);
 	}
 
 	@DeleteMapping("/user/{id}")

@@ -19,7 +19,7 @@ import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.member.dto.response.EmailCodeVerificationResponse;
 import com.shiftm.shiftm.domain.member.dto.response.IdValidationResponse;
-import com.shiftm.shiftm.domain.member.dto.response.UserResponse;
+import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.service.EmailService;
 import com.shiftm.shiftm.domain.member.service.MemberService;
 
@@ -27,21 +27,20 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/member")
 @RestController
 public class MemberController {
-	private final MemberService userService;
+	private final MemberService memberService;
 	private final EmailService emailService;
 
 	@PostMapping("/signup")
-	public UserResponse signUp(@Valid @RequestBody SignUpRequest requestDto) {
-		Member user = userService.signUp(requestDto);
-		return new UserResponse(user);
+	public MemberResponse signUp(@Valid @RequestBody final SignUpRequest requestDto) {
+		return memberService.signUp(requestDto);
 	}
 
 	@PostMapping("/validation/id")
 	public IdValidationResponse isIdDuplicated(@RequestBody IdValidationRequest requestDto) {
-		boolean isIdDuplicated = userService.isIdDuplicated(requestDto.id());
+		boolean isIdDuplicated = true; // userService.isIdDuplicated(requestDto.id());
 		return new IdValidationResponse(isIdDuplicated);
 	}
 
@@ -68,22 +67,22 @@ public class MemberController {
 
 	/* 하드 코딩 - userId 수정 필요 */
 	@GetMapping("/me")
-	public UserResponse getProfile(@RequestParam String userId) {
-		Member user = userService.getProfile(userId);
-		return new UserResponse(user);
+	public MemberResponse getProfile(@RequestParam String userId) {
+		Member user = memberService.getProfile(userId);
+		return new MemberResponse(user);
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */
 	@PatchMapping("/me")
-	public UserResponse updateProfile(@RequestParam String userId, @Valid @RequestBody UpdateProfileRequest requestDto) {
-		Member user = userService.updateProfile(userId, requestDto);
-		return new UserResponse(user);
+	public MemberResponse updateProfile(@RequestParam String userId, @Valid @RequestBody UpdateProfileRequest requestDto) {
+		Member user = memberService.updateProfile(userId, requestDto);
+		return new MemberResponse(user);
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */
 	@DeleteMapping("/me")
 	public String withdraw(@RequestParam String userId) {
-		userService.withdraw(userId);
+		memberService.withdraw(userId);
 		return "회원 탈퇴 완료";
 	}
 }
