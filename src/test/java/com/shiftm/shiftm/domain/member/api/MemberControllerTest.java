@@ -61,9 +61,44 @@ class MemberControllerTest extends ControllerTest {
 			.andExpect(status().isBadRequest());
 	}
 
+	@Test
+	public void 아이디_중복_확인_성공() throws Exception {
+		// given
+		final String id = "shiftm";
+
+		// when
+		final ResultActions resultActions = requestCheckUniqueId(id);
+
+		// then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("isVerified").value(true));
+	}
+
+	@Test
+	public void 아이디_중복_확인_실패() throws Exception {
+		// given
+		final Member existedMember = memberSetUp.save();
+		final String id = "shiftm";
+
+		// when
+		ResultActions resultActions = requestCheckUniqueId(id);
+
+		// then
+		resultActions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("isVerified").value(false));
+	}
+
 	private ResultActions requestSignUp(SignUpRequest requestDto) throws Exception {
 		return mockMvc.perform(post("/member/signup")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(objectMapper.writeValueAsString(requestDto)));
+	}
+
+	private ResultActions requestCheckUniqueId(String id) throws Exception {
+		return mockMvc.perform(get("/member/check/id")
+			.contentType(MediaType.APPLICATION_JSON)
+			.param("id", id));
 	}
 }

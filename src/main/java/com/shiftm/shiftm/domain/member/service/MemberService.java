@@ -14,6 +14,7 @@ import com.shiftm.shiftm.domain.member.domain.enums.Role;
 import com.shiftm.shiftm.domain.member.domain.enums.Status;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
+import com.shiftm.shiftm.domain.member.dto.response.CheckResponse;
 import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.member.exception.IdDuplicateException;
@@ -36,6 +37,11 @@ public class MemberService {
 		Member member = memberRepository.save(requestDto.toEntity(password, Role.USER));
 
 		return new MemberResponse(member);
+	}
+
+	@Transactional(readOnly = true)
+	public CheckResponse checkUniqueId(String id) {
+		return new CheckResponse(!memberFinder.isExistedId(id));
 	}
 
 	private void validateSignUpRequest(SignUpRequest requestDto) {

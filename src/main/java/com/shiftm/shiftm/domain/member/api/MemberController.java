@@ -14,11 +14,10 @@ import com.shiftm.shiftm.domain.member.dto.request.EmailCodeVerificationRequest;
 import com.shiftm.shiftm.domain.member.dto.request.EmailVerificationRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindIdRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindPasswordRequest;
-import com.shiftm.shiftm.domain.member.dto.request.IdValidationRequest;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.member.dto.response.EmailCodeVerificationResponse;
-import com.shiftm.shiftm.domain.member.dto.response.IdValidationResponse;
+import com.shiftm.shiftm.domain.member.dto.response.CheckResponse;
 import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.service.EmailService;
 import com.shiftm.shiftm.domain.member.service.MemberService;
@@ -38,10 +37,9 @@ public class MemberController {
 		return memberService.signUp(requestDto);
 	}
 
-	@PostMapping("/validation/id")
-	public IdValidationResponse isIdDuplicated(@RequestBody IdValidationRequest requestDto) {
-		boolean isIdDuplicated = true; // userService.isIdDuplicated(requestDto.id());
-		return new IdValidationResponse(isIdDuplicated);
+	@GetMapping("/check/id")
+	public CheckResponse checkUniqueId(@RequestParam final String id) {
+		return memberService.checkUniqueId(id);
 	}
 
 	@PostMapping("/verification/email")
