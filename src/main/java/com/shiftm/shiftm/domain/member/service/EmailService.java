@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,20 +28,57 @@ public class EmailService {
 	private final TempPasswordGenerator tempPasswordGenerator;
 	private final PasswordEncoder passwordEncoder;
 
+	@Value("${email.verification.code.expiration}")
+	private long verificationCodeExpirationTime;
+
 	private static final String VERIFICATION_CODE_PREFIX = "Verification Code ";
-	private static final long VERIFICATION_CODE_EXPIRATION_TIME = 1000 * 60 * 5;
 
 	@Transactional
 	public void sendEmailVerificationCode(String email) {
-		if (isEmailDuplicated(email)) {
-			throw new EmailDuplicateException(email);
-		}
-
 		String verificationCode = createVerificationCode();
 
-		redisService.saveValues(VERIFICATION_CODE_PREFIX + email, verificationCode, Duration.ofMillis(VERIFICATION_CODE_EXPIRATION_TIME));
+		redisService.saveValues(VERIFICATION_CODE_PREFIX + email, verificationCode, Duration.ofMillis(verificationCodeExpirationTime));
 
-		mailSender.sendMail(email, "ShiftM 이메일 인증 번호", verificationCode);
+		String emailMessage = createEmailMessage("ShiftM 이메일 인증 번호", "아래 인증 번호로 이메일 인증을 해주세요.", verificationCode);
+		mailSender.sendMail(email, "[ShiftM] 이메일 인증 번호", emailMessage);
+	}
+
+	private String createVerificationCode() {
+		Random random = new Random();
+		StringBuilder verificationCode = new StringBuilder();
+
+		for (int i = 0; i < 6; i++) {
+			verificationCode.append(random.nextInt(10));
+		}
+
+		return verificationCode.toString();
+	}
+
+	private String createEmailMessage(String title, String message, String content) {
+		StringBuilder emailMessage = new StringBuilder();
+
+		emailMessage.append("<table text-align='center' cellpadding='0' cellspacing='0' width='100%' ");
+		emailMessage.append("style='max-width: 600px; background-color: #FFFFFF; border: 1px solid #DDDDDD; border-radius: 8px; margin: 20px auto; padding: 20px;'>");
+		emailMessage.append("<tr>");
+		emailMessage.append("<td text-align='center' style='padding: 20px;'>");
+		emailMessage.append("<h2 style='color: #333333; margin: 0;'>" + title + "</h2>");
+		emailMessage.append("<p style='color: #666666; font-size: 16px;'>" + message + "</p>");
+		emailMessage.append("</td>");
+		emailMessage.append("</tr>");
+		emailMessage.append("<tr>");
+		emailMessage.append("<td style='text-align: center; padding: 20px 0;'>");
+		emailMessage.append("<span style='display: inline-block; font-size: 24px; color: #333333;'>" + content + "</span>");
+		emailMessage.append("</td>");
+		emailMessage.append("<tr>");
+		emailMessage.append("<td style='padding: 20px; color: #333333; font-size: 16px;'>");
+		emailMessage.append("<p style='margin: 0;'>만약 해당 메일을 요청하지 않았으면 무시해주시기 바랍니다.</p>");
+		emailMessage.append("<p style='margin: 0;'>감사합니다.</p>");
+		emailMessage.append("<p style='margin: 10px 0 0 0;'>Team ShiftM</p>");
+		emailMessage.append("</td>");
+		emailMessage.append("</tr>");
+		emailMessage.append("</table>");
+
+		return emailMessage.toString();
 	}
 
 	@Transactional
@@ -69,21 +107,6 @@ public class EmailService {
 		user.setPassword(passwordEncoder.encode(tempPassword));
 
 		mailSender.sendMail(email, "ShiftM 임시 비밀번호", tempPassword);
-	}
-
-	private String createVerificationCode() {
-		Random random = new Random();
-		StringBuilder verificationCode = new StringBuilder();
-
-		for (int i = 0; i < 6; i++) {
-			verificationCode.append(random.nextInt(10));
-		}
-
-		return verificationCode.toString();
-	}
-
-	private boolean isEmailDuplicated(String email) {
-		return userRepository.existsByEmail(email);
 	}
 
 	private boolean isIdEquals(String id, String storedId) {
