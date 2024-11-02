@@ -1,9 +1,11 @@
 package com.shiftm.shiftm.infra.email;
 
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -12,21 +14,21 @@ public class MailSender {
 	private final JavaMailSender javaMailSender;
 
 	public void sendMail(String to, String title, String text) {
-		SimpleMailMessage mailMessage = createMailMessage(to, title, text);
-
 		try {
+			MimeMessage mailMessage = createMailMessage(to, title, text);
 			javaMailSender.send(mailMessage);
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			throw new UnableToSendEmailException();
 		}
 	}
 
-	private SimpleMailMessage createMailMessage(String to, String title, String text) {
-		SimpleMailMessage mailMessage = new SimpleMailMessage();
+	private MimeMessage createMailMessage(String to, String title, String text) throws MessagingException {
+		MimeMessage mailMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mailMessage, false, "UTF-8");
 
-		mailMessage.setTo(to);
-		mailMessage.setSubject(title);
-		mailMessage.setText(text);
+		helper.setTo(to);
+		helper.setSubject(title);
+		helper.setText(text, true);
 
 		return mailMessage;
 	}

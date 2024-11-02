@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class MemberService {
 	private final MemberRepository memberRepository;
 	private final MemberFinder memberFinder;
+	private final EmailService emailService;
 	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
@@ -42,6 +43,15 @@ public class MemberService {
 	@Transactional(readOnly = true)
 	public CheckResponse checkUniqueId(String id) {
 		return new CheckResponse(!memberFinder.isExistedId(id));
+	}
+
+	@Transactional
+	public void sendEmailVerificationCode(String email) {
+		if (memberFinder.isExistedEmail(email)) {
+			throw new EmailDuplicateException(email);
+		}
+
+		emailService.sendEmailVerificationCode(email);
 	}
 
 	private void validateSignUpRequest(SignUpRequest requestDto) {

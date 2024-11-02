@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.dto.request.EmailCodeVerificationRequest;
-import com.shiftm.shiftm.domain.member.dto.request.EmailVerificationRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindIdRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindPasswordRequest;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
@@ -42,9 +41,9 @@ public class MemberController {
 		return memberService.checkUniqueId(id);
 	}
 
-	@PostMapping("/verification/email")
-	public void sendEmailVerificationCode(@RequestBody EmailVerificationRequest requestDto) {
-		emailService.sendEmailVerificationCode(requestDto.email());
+	@PostMapping("/check/email")
+	public void sendEmailVerificationCode(@RequestParam final String email) {
+		memberService.sendEmailVerificationCode(email);
 	}
 
 	@PostMapping("/verification/email/code")
