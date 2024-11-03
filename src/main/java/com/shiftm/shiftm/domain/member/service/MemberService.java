@@ -54,6 +54,11 @@ public class MemberService {
 		emailService.sendEmailVerificationCode(email);
 	}
 
+	@Transactional(readOnly = true)
+	public CheckResponse verifyEmailCode(String email, String verificationCode) {
+		return new CheckResponse(emailService.verifyEmailCode(email, verificationCode));
+	}
+
 	private void validateSignUpRequest(SignUpRequest requestDto) {
 		if (memberFinder.isExistedId(requestDto.id())) {
 			throw new IdDuplicateException(requestDto.id());
