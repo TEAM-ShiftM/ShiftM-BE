@@ -19,6 +19,7 @@ import com.shiftm.shiftm.domain.member.dto.response.CheckResponse;
 import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.service.EmailService;
 import com.shiftm.shiftm.domain.member.service.MemberService;
+import com.shiftm.shiftm.domain.member.service.MemberSignUpService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,27 +28,28 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/member")
 @RestController
 public class MemberController {
+	private final MemberSignUpService memberSignUpService;
 	private final MemberService memberService;
 	private final EmailService emailService;
 
 	@PostMapping("/signup")
 	public MemberResponse signUp(@Valid @RequestBody final SignUpRequest requestDto) {
-		return memberService.signUp(requestDto);
+		return memberSignUpService.signUp(requestDto);
 	}
 
 	@GetMapping("/check/id")
 	public CheckResponse checkUniqueId(@RequestParam final String id) {
-		return memberService.checkUniqueId(id);
+		return memberSignUpService.checkUniqueId(id);
 	}
 
 	@PostMapping("/check/email")
 	public void sendEmailVerificationCode(@RequestParam final String email) {
-		memberService.sendEmailVerificationCode(email);
+		memberSignUpService.sendEmailVerificationCode(email);
 	}
 
 	@PostMapping("/check/email/code")
 	public CheckResponse verifyEmailCode(@Valid @RequestBody final VerifyEmailCodeRequest requestDto) {
-		return memberService.verifyEmailCode(requestDto.email(), requestDto.verificationCode());
+		return memberSignUpService.verifyEmailCode(requestDto.email(), requestDto.verificationCode());
 	}
 
 	@PostMapping("/find/id")
