@@ -14,6 +14,7 @@ import com.shiftm.shiftm.domain.auth.service.RedisService;
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.member.dao.MemberRepository;
+import com.shiftm.shiftm.domain.member.exception.VerificationCodeNotFoundException;
 import com.shiftm.shiftm.global.util.password.TempPasswordGenerator;
 import com.shiftm.shiftm.infra.email.MailSender;
 
@@ -41,6 +42,17 @@ public class EmailService {
 
 		String emailMessage = createEmailMessage("ShiftM 이메일 인증 번호", "아래 인증 번호로 이메일 인증을 해주세요.", verificationCode);
 		mailSender.sendMail(email, "[ShiftM] 이메일 인증 번호", emailMessage);
+	}
+
+	@Transactional(readOnly = true)
+	public boolean verifyEmailCode(String email, String verificationCode) {
+		String storedVerificationCode = redisService.getValues(VERIFICATION_CODE_PREFIX + email);
+
+		if (storedVerificationCode.equals("false")) {
+			throw new VerificationCodeNotFoundException();
+		}
+
+		return storedVerificationCode.equals(verificationCode);
 	}
 
 	private String createVerificationCode() {
@@ -79,13 +91,6 @@ public class EmailService {
 		emailMessage.append("</table>");
 
 		return emailMessage.toString();
-	}
-
-	@Transactional
-	public boolean verifyEmailCode(String email, String verificationCode) {
-		String storedVerificationCode = redisService.getValues(VERIFICATION_CODE_PREFIX + email);
-
-		return storedVerificationCode.equals(verificationCode);
 	}
 
 	public void findId(String email) {

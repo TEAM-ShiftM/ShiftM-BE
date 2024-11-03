@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.shiftm.shiftm.domain.member.domain.Member;
-import com.shiftm.shiftm.domain.member.dto.request.EmailCodeVerificationRequest;
+import com.shiftm.shiftm.domain.member.dto.request.VerifyEmailCodeRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindIdRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindPasswordRequest;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
-import com.shiftm.shiftm.domain.member.dto.response.EmailCodeVerificationResponse;
 import com.shiftm.shiftm.domain.member.dto.response.CheckResponse;
 import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.service.EmailService;
 import com.shiftm.shiftm.domain.member.service.MemberService;
+import com.shiftm.shiftm.domain.member.service.MemberSignUpService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,28 +28,28 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/member")
 @RestController
 public class MemberController {
+	private final MemberSignUpService memberSignUpService;
 	private final MemberService memberService;
 	private final EmailService emailService;
 
 	@PostMapping("/signup")
 	public MemberResponse signUp(@Valid @RequestBody final SignUpRequest requestDto) {
-		return memberService.signUp(requestDto);
+		return memberSignUpService.signUp(requestDto);
 	}
 
 	@GetMapping("/check/id")
 	public CheckResponse checkUniqueId(@RequestParam final String id) {
-		return memberService.checkUniqueId(id);
+		return memberSignUpService.checkUniqueId(id);
 	}
 
 	@PostMapping("/check/email")
 	public void sendEmailVerificationCode(@RequestParam final String email) {
-		memberService.sendEmailVerificationCode(email);
+		memberSignUpService.sendEmailVerificationCode(email);
 	}
 
-	@PostMapping("/verification/email/code")
-	public EmailCodeVerificationResponse verifyEmailCode(@RequestBody EmailCodeVerificationRequest requestDto) {
-		boolean isVerifiedEmailCode = emailService.verifyEmailCode(requestDto.email(), requestDto.verificationCode());
-		return new EmailCodeVerificationResponse(isVerifiedEmailCode);
+	@PostMapping("/check/email/code")
+	public CheckResponse verifyEmailCode(@Valid @RequestBody final VerifyEmailCodeRequest requestDto) {
+		return memberSignUpService.verifyEmailCode(requestDto.email(), requestDto.verificationCode());
 	}
 
 	@PostMapping("/find/id")

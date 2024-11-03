@@ -12,6 +12,7 @@ public enum ErrorCode {
 	/* MEMBER ERROR */
 	ID_DUPLICATE(400, "MEM001", "It Is Duplicate ID"),
 	EMAIL_DUPLICATE(400, "MEM002", "It Is Duplicate Email"),
+	VERIFICATION_CODE_NOT_FOUND(404, "MEM003", "Verification Code Not Found"),
 
 	/* AUTH ERROR */
 	USER_NOT_FOUND(400, "AUTH001", "User Not Found"),
