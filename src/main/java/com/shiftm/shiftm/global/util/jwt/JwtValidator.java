@@ -21,9 +21,13 @@ public class JwtValidator {
 
 	private static final String BEARER = "Bearer ";
 
-	public void validateRefreshToken(final String refreshToken) {
+	public void validateToken(final String token) {
+		if (token == null) {
+			throw new InvalidTokenException();
+		}
+
 		try {
-			Claims claims = parseToken(refreshToken);
+			parseToken(token);
 		} catch (JwtException e) {
 			throw new InvalidTokenException();
 		}

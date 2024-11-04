@@ -67,7 +67,7 @@ public class LoginService {
 	}
 
 	private void validateRefreshToken(String refreshToken) {
-		jwtValidator.validateRefreshToken(refreshToken);
+		jwtValidator.validateToken(refreshToken);
 
 		String userId = jwtValidator.getSubject(refreshToken);
 
