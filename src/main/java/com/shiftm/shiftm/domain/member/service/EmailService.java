@@ -9,10 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.shiftm.shiftm.domain.auth.exception.UserNotFoundException;
+import com.shiftm.shiftm.domain.member.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.auth.service.RedisService;
 import com.shiftm.shiftm.domain.member.domain.Member;
-import com.shiftm.shiftm.domain.member.exception.EmailDuplicateException;
 import com.shiftm.shiftm.domain.member.dao.MemberRepository;
 import com.shiftm.shiftm.domain.member.exception.VerificationCodeNotFoundException;
 import com.shiftm.shiftm.global.util.password.TempPasswordGenerator;

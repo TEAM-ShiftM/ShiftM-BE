@@ -13,14 +13,14 @@ public enum ErrorCode {
 	ID_DUPLICATE(400, "MEM001", "It Is Duplicate ID"),
 	EMAIL_DUPLICATE(400, "MEM002", "It Is Duplicate Email"),
 	VERIFICATION_CODE_NOT_FOUND(404, "MEM003", "Verification Code Not Found"),
+	USER_NOT_FOUND(404, "MEM004", "User Not Found"),
 
 	/* AUTH ERROR */
-	USER_NOT_FOUND(400, "AUTH001", "User Not Found"),
-	INVALID_PASSWORD(400, "AUTH002", "It Is Invalid Password"),
-	INVALID_BEARER_PREFIX(400, "AUTH003", "It Is Invalid Bearer Prefix"),
-	INVALID_TOKEN(400, "AUTH004", "It Is Invalid Token"),
-	REFRESH_TOKEN_NOT_FOUND(400, "AUTH005", "Refresh Token Not Found"),
-	INVALID_REFRESH_TOKEN(400, "AUTH006", "It Is Invalid Refresh Token"),
+	INVALID_PASSWORD(400, "AUTH001", "It Is Invalid Password"),
+	INVALID_BEARER_PREFIX(400, "AUTH002", "It Is Invalid Bearer Prefix"),
+	INVALID_TOKEN(400, "AUTH003", "It Is Invalid Token"),
+	REFRESH_TOKEN_NOT_FOUND(400, "AUTH004", "Refresh Token Not Found"),
+	INVALID_REFRESH_TOKEN(400, "AUTH005", "It Is Invalid Refresh Token"),
 
 	/* SHIFT ERROR */
 	SHIFT_NOT_FOUND(400, "SHIFT001", "Shift Not Found"),
