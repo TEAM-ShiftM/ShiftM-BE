@@ -10,6 +10,7 @@ import com.shiftm.shiftm.domain.auth.dto.request.LoginRequest;
 import com.shiftm.shiftm.domain.auth.dto.response.TokenResponse;
 import com.shiftm.shiftm.domain.auth.service.LoginService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -19,9 +20,8 @@ public class LoginController {
 	private final LoginService loginService;
 
 	@PostMapping("/login")
-	public TokenResponse login(@RequestBody LoginRequest requestDto) {
-		TokenResponse loginResponse = loginService.login(requestDto);
-		return loginResponse;
+	public TokenResponse login(@Valid @RequestBody final LoginRequest requestDto) {
+		return loginService.login(requestDto);
 	}
 
 	@PostMapping("/reissue")
