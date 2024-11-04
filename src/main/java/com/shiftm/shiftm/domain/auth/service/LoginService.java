@@ -36,6 +36,19 @@ public class LoginService {
 		return token;
 	}
 
+	@Transactional
+	public TokenResponse reissue(String refreshToken) {
+		validateRefreshToken(refreshToken);
+
+		String userId = jwtValidator.getSubject(refreshToken);
+
+		TokenResponse token = generateToken(userId);
+
+		refreshTokenService.saveRefreshToken(userId, token.refreshToken());
+
+		return token;
+	}
+
 	private void authenticateUser(String id, String password) {
 		Member user = memberFinder.getUser(id);
 
@@ -53,23 +66,6 @@ public class LoginService {
 		return new TokenResponse(accessToken, refreshToken);
 	}
 
-	private boolean isMatch(String password, String storedPassword) {
-		return passwordEncoder.matches(password, storedPassword);
-	}
-
-	@Transactional
-	public TokenResponse reissue(String refreshToken) {
-		validateRefreshToken(refreshToken);
-
-		String userId = jwtValidator.getSubject(refreshToken);
-
-		TokenResponse token = generateToken(userId);
-
-		refreshTokenService.saveRefreshToken(userId, token.refreshToken());
-
-		return token;
-	}
-
 	private void validateRefreshToken(String refreshToken) {
 		jwtValidator.validateRefreshToken(refreshToken);
 
@@ -80,5 +76,9 @@ public class LoginService {
 		if (!jwtValidator.isRefreshTokenEqual(refreshToken, storedRefreshToken.getRefreshToken())) {
 			throw new InvalidRefreshTokenException();
 		}
+	}
+
+	private boolean isMatch(String password, String storedPassword) {
+		return passwordEncoder.matches(password, storedPassword);
 	}
 }

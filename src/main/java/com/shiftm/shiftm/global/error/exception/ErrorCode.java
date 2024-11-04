@@ -19,7 +19,7 @@ public enum ErrorCode {
 	INVALID_PASSWORD(400, "AUTH001", "It Is Invalid Password"),
 	INVALID_BEARER_PREFIX(400, "AUTH002", "It Is Invalid Bearer Prefix"),
 	INVALID_TOKEN(400, "AUTH003", "It Is Invalid Token"),
-	REFRESH_TOKEN_NOT_FOUND(400, "AUTH004", "Refresh Token Not Found"),
+	REFRESH_TOKEN_NOT_FOUND(404, "AUTH004", "Refresh Token Not Found"),
 	INVALID_REFRESH_TOKEN(400, "AUTH005", "It Is Invalid Refresh Token"),
 
 	/* SHIFT ERROR */

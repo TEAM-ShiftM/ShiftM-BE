@@ -25,8 +25,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/reissue")
-	public TokenResponse reissue(@RequestHeader("Authorization") String refreshToken) {
-		TokenResponse reissueResponse = loginService.reissue(refreshToken);
-		return reissueResponse;
+	public TokenResponse reissue(@RequestHeader("Authorization") final String refreshToken) {
+		return loginService.reissue(refreshToken);
 	}
 }
