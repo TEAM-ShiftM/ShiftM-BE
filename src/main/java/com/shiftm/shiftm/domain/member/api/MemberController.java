@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.dto.request.VerifyEmailCodeRequest;
-import com.shiftm.shiftm.domain.member.dto.request.FindIdRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindPasswordRequest;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
@@ -53,8 +52,8 @@ public class MemberController {
 	}
 
 	@PostMapping("/find/id")
-	public void findId(@RequestBody FindIdRequest requestDto) {
-		emailService.findId(requestDto.email());
+	public void findId(@RequestParam final String email) {
+		memberService.findId(email);
 	}
 
 	@PostMapping("/find/password")
