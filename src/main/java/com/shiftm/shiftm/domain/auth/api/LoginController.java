@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.shiftm.shiftm.domain.auth.dto.request.LoginRequest;
 import com.shiftm.shiftm.domain.auth.dto.response.TokenResponse;
 import com.shiftm.shiftm.domain.auth.service.LoginService;
+import com.shiftm.shiftm.global.auth.annotation.AuthId;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

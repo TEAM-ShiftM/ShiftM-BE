@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.global.config.handler;
+package com.shiftm.shiftm.global.auth.handler;
 
 import java.io.IOException;
 import java.util.HashMap;

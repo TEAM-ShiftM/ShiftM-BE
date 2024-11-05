@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.global.config.filter;
+package com.shiftm.shiftm.global.auth.filter;
 
 import java.io.IOException;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.global.config;
+package com.shiftm.shiftm.global.auth.config;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.shiftm.shiftm.global.config.filter.JwtAuthFilter;
-import com.shiftm.shiftm.global.config.handler.CustomAccessDeniedHandler;
-import com.shiftm.shiftm.global.config.handler.CustomAuthenticationEntryPointHandler;
+import com.shiftm.shiftm.global.auth.filter.JwtAuthFilter;
+import com.shiftm.shiftm.global.auth.handler.CustomAccessDeniedHandler;
+import com.shiftm.shiftm.global.auth.handler.CustomAuthenticationEntryPointHandler;
 
 import lombok.RequiredArgsConstructor;
 
