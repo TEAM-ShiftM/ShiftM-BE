@@ -29,4 +29,9 @@ public class LoginController {
 	public TokenResponse reissue(@RequestHeader("Authorization") final String refreshToken) {
 		return loginService.reissue(refreshToken);
 	}
+
+	@PostMapping("/logout")
+	public void logout(@AuthId final String userId) {
+		loginService.logout(userId);
+	}
 }

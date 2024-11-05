@@ -26,6 +26,11 @@ public class RefreshTokenService {
 		refreshTokenRepository.save(token);
 	}
 
+	@Transactional
+	public void deleteRefreshToken(String id) {
+		refreshTokenRepository.deleteById(id);
+	}
+
 	public RefreshToken getRefreshToken(String id) {
 		Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findById(id);
 

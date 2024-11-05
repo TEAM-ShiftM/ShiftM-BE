@@ -49,6 +49,11 @@ public class LoginService {
 		return token;
 	}
 
+	@Transactional
+	public void logout(String userId) {
+		refreshTokenService.deleteRefreshToken(userId);
+	}
+
 	private void authenticateUser(String id, String password) {
 		Member user = memberFinder.getUser(id);
 
