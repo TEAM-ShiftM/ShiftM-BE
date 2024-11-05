@@ -21,6 +21,8 @@ public enum ErrorCode {
 	INVALID_TOKEN(400, "AUTH003", "It Is Invalid Token"),
 	REFRESH_TOKEN_NOT_FOUND(404, "AUTH004", "Refresh Token Not Found"),
 	INVALID_REFRESH_TOKEN(400, "AUTH005", "It Is Invalid Refresh Token"),
+	UNAUTHORIZED(401, "AUTH006", "Unauthorized, Please Login"),
+	FORBIDDEN(403, "AUTH007", "Forbidden, You Don't Have Any Authority"),
 
 	/* SHIFT ERROR */
 	SHIFT_NOT_FOUND(400, "SHIFT001", "Shift Not Found"),
