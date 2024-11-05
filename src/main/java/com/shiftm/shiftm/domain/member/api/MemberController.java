@@ -19,6 +19,7 @@ import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.service.EmailService;
 import com.shiftm.shiftm.domain.member.service.MemberService;
 import com.shiftm.shiftm.domain.member.service.MemberSignUpService;
+import com.shiftm.shiftm.global.auth.annotation.AuthId;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -61,11 +62,9 @@ public class MemberController {
 		emailService.findPassword(requestDto.id(), requestDto.email());
 	}
 
-	/* 하드 코딩 - userId 수정 필요 */
 	@GetMapping("/me")
-	public MemberResponse getProfile(@RequestParam String userId) {
-		Member user = memberService.getProfile(userId);
-		return new MemberResponse(user);
+	public MemberResponse getProfile(@AuthId final String userId) {
+		return memberService.getProfile(userId);
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */

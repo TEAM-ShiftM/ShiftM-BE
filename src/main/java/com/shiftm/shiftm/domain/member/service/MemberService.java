@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.shiftm.shiftm.domain.member.dao.MemberFinder;
+import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.domain.enums.Gender;
@@ -29,8 +30,9 @@ public class MemberService {
 		emailService.sendEmailId(email, member.getId());
 	}
 
-	public Member getProfile(String userId) {
-		return getUser(userId);
+	@Transactional(readOnly = true)
+	public MemberResponse getProfile(String userId) {
+		return new MemberResponse(memberFinder.getUser(userId));
 	}
 
 	@Transactional
