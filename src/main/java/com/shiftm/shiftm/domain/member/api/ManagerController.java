@@ -37,8 +37,7 @@ public class ManagerController {
 
 	@GetMapping("/user/{id}")
 	public MemberResponse getEmployee(@PathVariable String id) {
-		Member user = userService.getProfile(id);
-		return new MemberResponse(user);
+		return userService.getProfile(id);
 	}
 
 	@PatchMapping("/user/{id}")
