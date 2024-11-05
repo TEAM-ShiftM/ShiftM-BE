@@ -54,6 +54,11 @@ public class EmailService {
 		return storedVerificationCode.equals(verificationCode);
 	}
 
+	public void sendEmailId(String email, String userId) {
+		String emailMessage = createEmailMessage("ShiftM 아이디 찾기", "아이디는 아래와 같습니다.", userId);
+		mailSender.sendMail(email,"[ShiftM] 아이디 찾기", emailMessage);
+	}
+
 	private String createVerificationCode() {
 		Random random = new Random();
 		StringBuilder verificationCode = new StringBuilder();
@@ -90,12 +95,6 @@ public class EmailService {
 		emailMessage.append("</table>");
 
 		return emailMessage.toString();
-	}
-
-	public void findId(String email) {
-		Member user = getUser(email);
-
-		mailSender.sendMail(email, "ShiftM 아이디 찾기", user.getId());
 	}
 
 	@Transactional

@@ -2,6 +2,7 @@ package com.shiftm.shiftm.domain.member.dao;
 
 import java.util.Optional;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,13 +18,24 @@ public class MemberFinder {
 
 	@Transactional(readOnly = true)
 	public Member getUser(String userId) {
-		Optional<Member> optionalUser = memberRepository.findById(userId);
+		Optional<Member> optionalMember = memberRepository.findById(userId);
 
-		if (optionalUser.isEmpty()) {
+		if (optionalMember.isEmpty()) {
 			throw new UserNotFoundException(userId);
 		}
 
-		return optionalUser.get();
+		return optionalMember.get();
+	}
+
+	@Transactional(readOnly = true)
+	public Member getUserByEmail(String email) {
+		Optional<Member> optionalMember = memberRepository.findByEmail(email);
+
+		if (optionalMember.isEmpty()) {
+			throw new UserNotFoundException(email);
+		}
+
+		return optionalMember.get();
 	}
 
 	@Transactional(readOnly = true)

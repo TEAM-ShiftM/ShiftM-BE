@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shiftm.shiftm.domain.member.dao.MemberFinder;
 import com.shiftm.shiftm.domain.member.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.domain.enums.Gender;
@@ -18,6 +19,15 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class MemberService {
 	private final MemberRepository memberRepository;
+	private final MemberFinder memberFinder;
+	private final EmailService emailService;
+
+	@Transactional(readOnly = true)
+	public void findId(String email) {
+		Member member = memberFinder.getUserByEmail(email);
+
+		emailService.sendEmailId(email, member.getId());
+	}
 
 	public Member getProfile(String userId) {
 		return getUser(userId);

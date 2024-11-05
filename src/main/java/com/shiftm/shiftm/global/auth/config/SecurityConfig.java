@@ -30,6 +30,7 @@ public class SecurityConfig {
 	private static final String[] whiteList = {
 		"/member/signup",
 		"/member/check/**",
+		"/member/find/**",
 		"/auth/login",
 		"/auth/reissue"
 	};
