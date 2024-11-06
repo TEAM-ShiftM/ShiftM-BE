@@ -10,8 +10,6 @@ public record UpdateProfileRequest(
 	@Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
 	String email,
 	@NotBlank
-	String verificationNumber,
-	@NotBlank
 	String name,
 	@NotNull
 	LocalDate birthDate,

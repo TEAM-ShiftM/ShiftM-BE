@@ -36,15 +36,15 @@ public class MemberService {
 	}
 
 	@Transactional
-	public Member updateProfile(String userId, UpdateProfileRequest requestDto) {
-		Member user = getUser(userId);
+	public MemberResponse updateProfile(String userId, UpdateProfileRequest requestDto) {
+		Member member = memberFinder.getUser(userId);
 
-		user.setEmail(requestDto.email());
-		user.setName(requestDto.name());
-		user.setBirthDate(requestDto.birthDate());
-		user.setGender(Gender.valueOf(requestDto.gender().toUpperCase()));
+		member.updateEmail(requestDto.email())
+			  .updateName(requestDto.name())
+			  .updateBirthDate(requestDto.birthDate())
+			  .updateGender(Gender.valueOf(requestDto.gender().toUpperCase()));
 
-		return user;
+		return new MemberResponse(member);
 	}
 
 	@Transactional

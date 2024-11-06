@@ -42,8 +42,7 @@ public class ManagerController {
 
 	@PatchMapping("/user/{id}")
 	public MemberResponse updateEmployee(@PathVariable String id, @RequestBody UpdateProfileRequest requestDto) {
-		Member user = userService.updateProfile(id, requestDto);
-		return new MemberResponse(user);
+		return userService.updateProfile(id, requestDto);
 	}
 
 	@DeleteMapping("/user/{id}")

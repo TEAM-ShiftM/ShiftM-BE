@@ -69,4 +69,24 @@ public class Member {
 		this.status = status;
 		this.role = role;
 	}
+
+	public Member updateEmail(String email) {
+		this.email = email;
+		return this;
+	}
+
+	public Member updateName(String name) {
+		this.name = name;
+		return this;
+	}
+
+	public Member updateBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
+		return this;
+	}
+
+	public Member updateGender(Gender gender) {
+		this.gender = gender;
+		return this;
+	}
 }
