@@ -67,11 +67,9 @@ public class MemberController {
 		return memberService.getProfile(userId);
 	}
 
-	/* 하드 코딩 - userId 수정 필요 */
 	@PatchMapping("/me")
-	public MemberResponse updateProfile(@RequestParam String userId, @Valid @RequestBody UpdateProfileRequest requestDto) {
-		Member user = memberService.updateProfile(userId, requestDto);
-		return new MemberResponse(user);
+	public MemberResponse updateProfile(@AuthId final String userId, @Valid @RequestBody final UpdateProfileRequest requestDto) {
+		return memberService.updateProfile(userId, requestDto);
 	}
 
 	/* 하드 코딩 - userId 수정 필요 */
