@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.dto.request.VerifyEmailCodeRequest;
 import com.shiftm.shiftm.domain.member.dto.request.FindPasswordRequest;
 import com.shiftm.shiftm.domain.member.dto.request.SignUpRequest;
@@ -72,10 +71,8 @@ public class MemberController {
 		return memberService.updateProfile(userId, requestDto);
 	}
 
-	/* 하드 코딩 - userId 수정 필요 */
 	@DeleteMapping("/me")
-	public String withdraw(@RequestParam String userId) {
+	public void withdraw(@AuthId final String userId) {
 		memberService.withdraw(userId);
-		return "회원 탈퇴 완료";
 	}
 }

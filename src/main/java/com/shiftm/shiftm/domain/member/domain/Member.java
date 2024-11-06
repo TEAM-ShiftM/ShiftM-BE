@@ -89,4 +89,9 @@ public class Member {
 		this.gender = gender;
 		return this;
 	}
+
+	public Member withdraw() {
+		this.status = Status.INACTIVE;
+		return this;
+	}
 }

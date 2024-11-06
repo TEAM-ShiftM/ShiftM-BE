@@ -10,7 +10,6 @@ import com.shiftm.shiftm.domain.member.dto.response.MemberResponse;
 import com.shiftm.shiftm.domain.member.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.member.domain.Member;
 import com.shiftm.shiftm.domain.member.domain.enums.Gender;
-import com.shiftm.shiftm.domain.member.domain.enums.Status;
 import com.shiftm.shiftm.domain.member.dto.request.UpdateProfileRequest;
 import com.shiftm.shiftm.domain.member.dao.MemberRepository;
 
@@ -49,9 +48,9 @@ public class MemberService {
 
 	@Transactional
 	public void withdraw(String userId) {
-		Member user = getUser(userId);
+		Member member = memberFinder.getUser(userId);
 
-		user.setStatus(Status.INACTIVE);
+		member.withdraw();
 	}
 
 	public Member getUser(String userId) {
