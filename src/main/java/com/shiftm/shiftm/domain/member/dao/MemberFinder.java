@@ -2,10 +2,10 @@ package com.shiftm.shiftm.domain.member.dao;
 
 import java.util.Optional;
 
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shiftm.shiftm.domain.member.domain.enums.Status;
 import com.shiftm.shiftm.domain.member.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.member.domain.Member;
 
@@ -18,7 +18,7 @@ public class MemberFinder {
 
 	@Transactional(readOnly = true)
 	public Member getUser(String userId) {
-		Optional<Member> optionalMember = memberRepository.findById(userId);
+		Optional<Member> optionalMember = memberRepository.findByIdAndStatus(userId, Status.ACTIVE);
 
 		if (optionalMember.isEmpty()) {
 			throw new UserNotFoundException(userId);
@@ -29,7 +29,7 @@ public class MemberFinder {
 
 	@Transactional(readOnly = true)
 	public Member getUserByEmail(String email) {
-		Optional<Member> optionalMember = memberRepository.findByEmail(email);
+		Optional<Member> optionalMember = memberRepository.findByEmailAndStatus(email, Status.ACTIVE);
 
 		if (optionalMember.isEmpty()) {
 			throw new UserNotFoundException(email);
