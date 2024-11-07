@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.shiftm.shiftm.domain.member.domain.enums.Status;
 import com.shiftm.shiftm.domain.member.exception.UserNotFoundException;
 import com.shiftm.shiftm.domain.auth.service.RedisService;
 import com.shiftm.shiftm.domain.member.domain.Member;
@@ -117,7 +118,7 @@ public class EmailService {
 	}
 
 	private Member getUser(String email) {
-		Optional<Member> optionalUser = userRepository.findByEmail(email);
+		Optional<Member> optionalUser = userRepository.findByEmailAndStatus(email, Status.ACTIVE);
 
 		if (optionalUser.isEmpty()) {
 			throw new UserNotFoundException(email);
