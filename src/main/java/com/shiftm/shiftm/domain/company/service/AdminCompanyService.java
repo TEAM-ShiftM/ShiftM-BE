@@ -28,4 +28,9 @@ public class AdminCompanyService {
 
 		return new CompanyResponse(company);
 	}
+
+	@Transactional(readOnly = true)
+	public CompanyResponse getCompany() {
+		return new CompanyResponse(companyFinder.getCompany());
+	}
 }
