@@ -44,4 +44,29 @@ public class Company {
 		this.breakTime = breakTime;
 		this.companyIP = companyIP;
 	}
+
+	public Company updateCompanyId(String companyId) {
+		this.companyId = companyId;
+		return this;
+	}
+
+	public Company updateCheckInTime(LocalTime checkInTime) {
+		this.checkInTime = checkInTime;
+		return this;
+	}
+
+	public Company updateCheckOutTime(LocalTime checkOutTime) {
+		this.checkOutTime = checkOutTime;
+		return this;
+	}
+
+	public Company updateBreakTime(int breakTime) {
+		this.breakTime = breakTime;
+		return this;
+	}
+
+	public Company updateCompanyIP(String companyIP) {
+		this.companyIP = companyIP;
+		return this;
+	}
 }

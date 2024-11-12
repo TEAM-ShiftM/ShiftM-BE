@@ -7,7 +7,7 @@ import com.shiftm.shiftm.domain.company.domain.Company;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record CreateCompanyRequest(
+public record CompanyRequest(
 	@NotBlank
 	String companyId,
 	@NotNull
