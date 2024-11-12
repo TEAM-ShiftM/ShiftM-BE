@@ -29,7 +29,7 @@ public class MemberSignUpService {
 		validateSignUpRequest(requestDto);
 
 		String password = passwordEncoder.encode(requestDto.password());
-		Member member = memberRepository.save(requestDto.toEntity(password, Role.USER));
+		Member member = memberRepository.save(requestDto.toEntity(password, Role.ROLE_USER));
 
 		return new MemberResponse(member);
 	}
