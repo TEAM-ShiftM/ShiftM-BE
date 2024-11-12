@@ -24,6 +24,9 @@ public enum ErrorCode {
 	UNAUTHORIZED(401, "AUTH006", "Unauthorized, Please Login"),
 	FORBIDDEN(403, "AUTH007", "Forbidden, You Don't Have Any Authority"),
 
+	/* COMPANY ERROR */
+	ALREADY_COMPANY_EXIST(400, "COM001", "Already Company Exist"),
+
 	/* SHIFT ERROR */
 	SHIFT_NOT_FOUND(400, "SHIFT001", "Shift Not Found"),
 

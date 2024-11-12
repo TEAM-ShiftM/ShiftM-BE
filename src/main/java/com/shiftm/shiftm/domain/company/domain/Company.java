@@ -1,6 +1,6 @@
 package com.shiftm.shiftm.domain.company.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,14 +21,27 @@ public class Company {
 	private Long id;
 
 	@Column(nullable = false)
-	private LocalDateTime checkinTime;
+	private String companyId;
 
 	@Column(nullable = false)
-	private LocalDateTime checkoutTime;
+	private LocalTime checkInTime;
 
 	@Column(nullable = false)
-	private LocalDateTime startBreakTime;
+	private LocalTime checkOutTime;
 
 	@Column(nullable = false)
-	private LocalDateTime endBreakTime;
+	private int breakTime;
+
+	@Column
+	private String companyIP;
+
+	@Builder
+	public Company(String companyId, LocalTime checkInTime, LocalTime checkOutTime,
+		int breakTime, String companyIP) {
+		this.companyId = companyId;
+		this.checkInTime = checkInTime;
+		this.checkOutTime = checkOutTime;
+		this.breakTime = breakTime;
+		this.companyIP = companyIP;
+	}
 }

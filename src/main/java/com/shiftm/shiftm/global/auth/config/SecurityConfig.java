@@ -50,6 +50,7 @@ public class SecurityConfig {
 				.accessDeniedHandler(customAccessDeniedHandler)
 			)
 			.authorizeHttpRequests((authorization) -> authorization
+				.requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
 				.anyRequest().authenticated()
 			)
 			.build();
