@@ -26,6 +26,7 @@ public enum ErrorCode {
 
 	/* COMPANY ERROR */
 	ALREADY_COMPANY_EXIST(400, "COM001", "Already Company Exist"),
+	COMPANY_NOT_FOUND(404, "COM002", "Company Not Found"),
 
 	/* SHIFT ERROR */
 	SHIFT_NOT_FOUND(400, "SHIFT001", "Shift Not Found"),
