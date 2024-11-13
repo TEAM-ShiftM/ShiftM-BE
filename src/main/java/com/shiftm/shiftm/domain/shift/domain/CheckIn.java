@@ -2,6 +2,8 @@ package com.shiftm.shiftm.domain.shift.domain;
 
 import java.time.LocalDateTime;
 
+import com.shiftm.shiftm.domain.shift.domain.enums.Status;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -12,9 +14,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class Checkin {
+public class CheckIn {
 	@Column(nullable = false)
-	private LocalDateTime checkinTime;
+	private LocalDateTime checkInTime;
+
+	@Column(nullable = false)
+	private Status checkInStatus;
 
 	@Column
 	private Double latitude;
@@ -22,12 +27,9 @@ public class Checkin {
 	@Column
 	private Double longitude;
 
-	@Column(nullable = false)
-	private Boolean approval;
-
 	@Builder
-	public Checkin(LocalDateTime checkinTime, Boolean approval) {
-		this.checkinTime = checkinTime;
-		this.approval = approval;
+	public CheckIn(LocalDateTime checkInTime, Status checkInStatus) {
+		this.checkInTime = checkInTime;
+		this.checkInStatus = checkInStatus;
 	}
 }

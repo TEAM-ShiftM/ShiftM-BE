@@ -9,6 +9,6 @@ public record CheckOutResponse(
 	LocalDateTime checkoutTime
 ) {
 	public CheckOutResponse(Shift shift) {
-		this(shift.getId(), shift.getCheckout().getCheckoutTime());
+		this(shift.getId(), shift.getCheckOut().getCheckOutTime());
 	}
 }
