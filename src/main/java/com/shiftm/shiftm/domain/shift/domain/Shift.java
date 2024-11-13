@@ -25,19 +25,19 @@ public class Shift {
 	private Long id;
 
 	@Embedded
-	private Checkin checkin;
+	private CheckIn checkIn;
 
 	@Setter
 	@Embedded
-	private Checkout checkout;
+	private CheckOut checkOut;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	private Member user;
+	private Member member;
 
 	@Builder
-	public Shift(Checkin checkin, Member user) {
-		this.checkin = checkin;
-		this.user = user;
+	public Shift(CheckIn checkIn, Member member) {
+		this.checkIn = checkIn;
+		this.member = member;
 	}
 }

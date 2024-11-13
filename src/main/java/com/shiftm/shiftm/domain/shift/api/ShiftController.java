@@ -12,6 +12,7 @@ import com.shiftm.shiftm.domain.shift.dto.response.CheckInResponse;
 import com.shiftm.shiftm.domain.shift.dto.response.CheckOutResponse;
 import com.shiftm.shiftm.domain.shift.dto.response.ShiftTimeOfWeekResponse;
 import com.shiftm.shiftm.domain.shift.service.ShiftService;
+import com.shiftm.shiftm.global.auth.annotation.AuthId;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,9 +23,8 @@ public class ShiftController {
 	private final ShiftService shiftService;
 
 	@PostMapping("/check-in")
-	public CheckInResponse recordCheckIn(@RequestParam String userId) {
-		Shift shift = shiftService.recordCheckIn(userId);
-		return new CheckInResponse(shift);
+	public CheckInResponse checkIn(@AuthId final String userId) {
+		return shiftService.checkIn(userId);
 	}
 
 	@PatchMapping("/check-out")

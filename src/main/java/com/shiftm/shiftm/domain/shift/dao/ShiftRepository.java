@@ -1,4 +1,4 @@
-package com.shiftm.shiftm.domain.shift.repository;
+package com.shiftm.shiftm.domain.shift.dao;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,10 +12,10 @@ import com.shiftm.shiftm.domain.shift.domain.Shift;
 
 public interface ShiftRepository extends JpaRepository<Shift, Long> {
 
-	@Query("SELECT s FROM Shift s WHERE s.user.id = :userId ORDER BY s.id DESC")
+	@Query("SELECT s FROM Shift s WHERE s.member.id = :userId ORDER BY s.id DESC")
 	Optional<Shift> findLatestShiftByUserId(@Param("userId") String userId);
 
-	@Query("SELECT s FROM Shift s WHERE s.user.id = :userId AND s.checkin.checkinTime BETWEEN :startOfWeek AND :endOfWeek ORDER BY s.checkin.checkinTime ASC")
+	@Query("SELECT s FROM Shift s WHERE s.member.id = :userId AND s.checkIn.checkInTime BETWEEN :startOfWeek AND :endOfWeek ORDER BY s.checkIn.checkInTime ASC")
 	List<Shift> findWeeklyShiftsByUserId(@Param("userId") String userId,
 										 @Param("startOfWeek") LocalDateTime startOfWeek,
 										 @Param("endOfWeek") LocalDateTime endOfWeek);

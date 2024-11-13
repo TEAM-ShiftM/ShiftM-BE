@@ -1,5 +1,6 @@
 package com.shiftm.shiftm.domain.company.dao;
 
+import java.time.LocalTime;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class CompanyFinder {
 		}
 
 		return optionalCompany.get();
+	}
+
+	@Transactional(readOnly = true)
+	public LocalTime getCheckInTime() {
+		return companyRepository.findCheckInTime();
 	}
 
 	@Transactional(readOnly = true)
